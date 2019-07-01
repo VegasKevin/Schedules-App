@@ -19,13 +19,13 @@ const VolunteerSchema = new Schema({
         required : false
     },
     preferences: {
-        type : [],
+        type : [String],
         required : false
     },
     ministries: {
-        type: [],
+        type: [String],
         required: false
     }
 });
 
-module.exports = Volunteers = mongoose.model('volunteer', VolunteerSchema);
+module.exports = Volunteer = mongoose.model('volunteer', VolunteerSchema);

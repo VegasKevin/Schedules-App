@@ -4,8 +4,8 @@
   "description": "Church Schedule App",
   "main": "server.js",
   "scripts": {
-    "start" : "node server/server.js",
-    "server" : "nodemon server/server.js"
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
     "body-parser": "^1.19.0",
     "concurrently": "^4.1.1",
     "express": "^4.17.1",
+    "express-validator": "^6.1.0",
     "mongoose": "^5.6.1"
   },
   "devDependencies": {

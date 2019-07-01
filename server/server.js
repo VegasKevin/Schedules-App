@@ -2,9 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
-//DB Config from config/configKeys.js
-const db = require("../config/configKeys").mongoURI;
-
 // The API Routes for the Volunteers Screeen
 const volunteers = require('./routes/api/Volunteers');
 
@@ -13,11 +10,16 @@ const app = express();
 // The BodyParser Middleware
 app.use(bodyParser.json());
 
+//DB Config from config/configKeys.js
+const db = require("../config/configKeys").mongoURI;
+
 //Connect to Mongo Databse
 mongoose
     .connect(db, {useNewUrlParser: true})
     .then(() => console.log("MongoDB is Connected."))
     .catch(err => console.log("~~~~~~~~" + err));
+
+
 
 //Use Routes
 app.use("/api/volunteers", volunteers);
