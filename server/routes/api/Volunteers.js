@@ -25,26 +25,15 @@ router.get("/", (req, res) =>{
 //@access   ADMIN
 router.post("/", [
         //Validates to ensure that required fields are as needed
-        check("name").not().isEmpty(),
-        check("emailAddress").not().isEmpty().isEmail(),
-        check("backGroundCheck").isIn(["true", "false"])
+        check("name", "Name field can't be empty").not().isEmpty(),
+        check("emailAddress", "Must Enter a Valid Email Address").not().isEmpty().isEmail(),
+        check("backGroundCheck", "BackGround Check requires a True or False").isIn(["true", "false"]),
+        check("preferences").optional(),
+        check("ministries").optional(),
+        check("phoneNumber").optional()
     ],
     (req, res) => {
-        const validationErrors = validationResult(req);
-        const hasErrors = !(validationErrors.isEmpty());
-        console.log(hasErrors);
-        
-        // if (validationErrors.errors != undefined){
-        //     console.log("~~~~~~~~~~~~~"  + (validationErrors.errors.isEmpty));
-        // }
-        
-        console.log("errors array~~~~~");
-        validationErrors.errors.forEach(element => {
-          console.log(element);  
-        });// + validationErrors.errors);
-        
-        //If validation check came back empty
-        if (hasErrors == false) {            
+        if (requestHasErrors(req)) {            
             const newVolunteer = new Volunteers({
                 name : req.body.name,
                 emailAddress : req.body.emailAddress,
@@ -57,20 +46,76 @@ router.post("/", [
         newVolunteer
             .save()
             .then(volunteers => res.json(volunteers))
-            .catch(error => {
-                console.log(error);
+            .catch(error => { console.log(error);
             });
         } else {
-            return res.status(422).json(validationErrors);
+            return res.status(422).json({ "Error" : "A Parameter format wasn't properly used" });
         }        
 });
 
 //@route    DELETE api/volunteers
 //@desc     Remove a Volunteer from the VOlunteers Database
 //@access   ADMIN
-router.delete("/", (req, res) => {
-
+router.delete("/", [
+        check("id").not().isEmpty()
+    ],
+    (req, res) => {
+        if (requestHasErrors(req)) {
+            //console.log(req.body);
+            //I chose to findById via the req.body rather than req.params
+            Volunteers.findById(req.body.id)
+            .then(volunteer => volunteer.remove()
+            .then(() => res.json({ "Volunteer Removed" : volunteer })))
+            .catch (error => res.status(404).json({ "status": error}))
+        }else {
+            return res.status(422).json({"error" : "id parameter format wasn't properly used"})
+        }
+        
 })
+
+//@route    PATCH api/volunteers
+//@desc     Edit an Existing Volunteer's Resources/Information
+//@access   ADMIN
+router.patch("/", [
+        check("name", "Name field can't be empty").not().isEmpty(),
+        check("emailAddress", "Must Enter a Valid Email Address").not().isEmpty().isEmail(),
+        check("backGroundCheck", "BackGround Check requires a True or False").isIn(["true", "false"]),
+        check("preferences"),
+        check("ministries"),
+        check("phoneNumber")
+],
+    (req, res) => {
+        if(requestHasErrors(req)){
+            //This will require that each PATCH Request sends the whole object's data, including unchanged data
+            Volunteers.findById(req.body.id)
+            .then(volunteer => 
+                volunteer.updateOne({$set : {
+                    "name" : req.body.name,
+                    "emailAddress" : req.body.emailAddress,
+                    "backGroundCheck" : req.body.backGroundCheck,
+                    "preferences" : req.body.preferences,
+                    "ministries" : req.body.ministries,
+                    "phoneNumber" : req.body.phoneNumber
+            }}))
+            .then(() => res.json({ "New Volunteer info" : "Info Here"}))
+            .catch(error => res.status(404).json({ "Error Message" : error}))
+        }
+        else {
+            return res.status(422).json({"Error" : "Parameters weren't formatted properly"});
+        }
+    }
+)
+
+const requestHasErrors = (req) => {
+    const validationErrors = validationResult(req);
+    console.log(validationErrors);
+    if (!(validationErrors.isEmpty())) {
+        return false;
+    }
+    else{
+        return true;
+    }
+}
 
 
 module.exports = router;
