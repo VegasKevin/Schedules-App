@@ -10,6 +10,21 @@ const { body, check, validationResult } = require("express-validator");
 //Volunteers Model (Schema)
 const Volunteers = require('../../../models/Volunteers');
 
+//@route    GET api/volunteers:name
+//@desc     Get a single Volunteer Based on the Name
+//@access   ADMIN or Both?
+router.get("/", 
+    [ check("name", "Name Field Can't be empty").not().isEmpty() ], 
+    (req, res) =>{
+        if(requestHasErrors(req)){
+            Volunteers.findOne({"name": req.body.name})
+            .then (volunteer => res.json(volunteer))
+            .catch(error => res.json(error));
+        } else{
+            return res.status(422).json({"Error" : "Name parameter wasn't formatted properly"})
+        }
+    });
+
 //@route    GET api/volunteers
 //@desc     Get all VOlunteers
 //@access   ADMIN
