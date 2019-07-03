@@ -3,7 +3,7 @@ node_js:
   - "10"
 
 install:
-  npm @5
+  #npm @5
   npm ci
   
   #npm i --save-dev mocha  
@@ -15,9 +15,9 @@ install:
   #npm test
   
 
-cache:
-  directories:
-    - "node_modules"
+#cache:
+#  directories:
+#    - "node_modules"
 
 
 
