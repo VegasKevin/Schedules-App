@@ -10,29 +10,32 @@ const { body, check, validationResult } = require("express-validator");
 //Volunteers Model (Schema)
 const Volunteers = require('../../../models/Volunteers');
 
-//@route    GET api/volunteers:name
-//@desc     Get a single Volunteer Based on the Name
-//@access   ADMIN or Both?
-router.get("/", 
-    [ check("name", "Name Field Can't be empty").not().isEmpty() ], 
-    (req, res) =>{
-        if(requestHasErrors(req)){
-            Volunteers.findOne({"name": req.body.name})
-            .then (volunteer => res.json(volunteer))
-            .catch(error => res.json(error));
-        } else{
-            return res.status(422).json({"Error" : "Name parameter wasn't formatted properly"})
-        }
-    });
-
 //@route    GET api/volunteers
 //@desc     Get all VOlunteers
 //@access   ADMIN
 router.get("/", (req, res) =>{
+    //console.log("~~~~~~In get ALL");
     Volunteers.find()
     //.sort ({ name: -1 })
     .then(volunteers => res.json(volunteers))
 });
+
+
+//@route    GET api/volunteers:name
+//@desc     Get a single Volunteer Based on the Name
+//@access   ADMIN or Both?
+router.get("/", 
+    [ check("firstName", "First Name Field Can't be empty").not().isEmpty() ], 
+    (req, res) =>{
+        if(requestHasErrors(req)){
+            Volunteers.findOne({"firstName": req.body.firstName})
+            .then (volunteer => res.json(volunteer))
+            .catch(error => res.json(error));
+        } else{
+            return res.status(422).json({"Error" : "First Name parameter wasn't formatted properly"})
+        }
+    });
+
 
 
 //@route    POST api/volunteers
@@ -40,7 +43,8 @@ router.get("/", (req, res) =>{
 //@access   ADMIN
 router.post("/", [
         //Validates to ensure that required fields are as needed
-        check("name", "Name field can't be empty").not().isEmpty(),
+        check("firstName", "First Name field can't be empty").not().isEmpty(),
+        check("lastName", "Last Name field can't be empty").not().isEmpty(),
         check("emailAddress", "Must Enter a Valid Email Address").not().isEmpty().isEmail(),
         check("backGroundCheck", "BackGround Check requires a True or False").isIn(["true", "false"]),
         check("preferences").optional(),
@@ -48,9 +52,11 @@ router.post("/", [
         check("phoneNumber").optional()
     ],
     (req, res) => {
+        console.log("req.body.firstName: " + req.body.firstName);
         if (requestHasErrors(req)) {            
             const newVolunteer = new Volunteers({
-                name : req.body.name,
+                firstName : req.body.firstName,
+                lastName : req.body.lastName,
                 emailAddress : req.body.emailAddress,
                 backGroundCheck : req.body.backGroundCheck,
                 phoneNumber : req.body.phoneNumber,
@@ -92,7 +98,8 @@ router.delete("/", [
 //@desc     Edit an Existing Volunteer's Resources/Information
 //@access   ADMIN
 router.patch("/", [
-        check("name", "Name field can't be empty").not().isEmpty(),
+        check("firstName", "First Name field can't be empty").not().isEmpty(),
+        check("lastName", "Last Name field can't be empty").not().isEmpty(),
         check("emailAddress", "Must Enter a Valid Email Address").not().isEmpty().isEmail(),
         check("backGroundCheck", "BackGround Check requires a True or False").isIn(["true", "false"]),
         check("preferences"),
@@ -105,7 +112,8 @@ router.patch("/", [
             Volunteers.findById(req.body.id)
             .then(volunteer => 
                 volunteer.updateOne({$set : {
-                    "name" : req.body.name,
+                    "firstName" : req.body.FirstName,
+                    "lastName" : req.body.LastName,
                     "emailAddress" : req.body.emailAddress,
                     "backGroundCheck" : req.body.backGroundCheck,
                     "preferences" : req.body.preferences,

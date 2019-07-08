@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-
+const cors = require("cors");
 // The API Routes for the Volunteers Screeen
 const volunteers = require('./routes/api/Volunteers');
 
@@ -9,6 +9,9 @@ const app = express();
 
 // The BodyParser Middleware
 app.use(bodyParser.json());
+
+//Enable CORS using an 'npm cors' package
+app.use(cors());
 
 //DB Config from config/configKeys.js
 const db = require("../config/configKeys").mongoURI;
