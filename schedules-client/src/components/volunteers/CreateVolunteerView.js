@@ -26,6 +26,7 @@ class CreateVolunteerView extends React.Component {
                 title="Create New Volunteer"
                 content={<CreateVolunteerModalContent
                             onSubmit={this.onSubmit}
+                            onDismiss={() => history.push('/volunteers')}
                         />}
                 onDismiss={() => history.push("/volunteers")}
             />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import VolunteerListView from './VolunteerListView';
 
 //import Create_Volunteer_View from './Create_Volunteer_View';
 
@@ -15,6 +16,7 @@ class Main_Volunteers_View extends React.Component{
                         Create New Volunteer
                 </Link>
                 
+                {    <VolunteerListView/>}
                 
                 
             </div>

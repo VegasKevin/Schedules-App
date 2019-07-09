@@ -1,16 +1,13 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-// import { fullNameField } from './CreateVolunteerFormComponents';
-// import { FormField } from 'semantic-ui-react';
-import { createVolunteer } from '../../actions';
-
 class CreateVolunteerModalContent extends React.Component{
+    
     renderError ( { error, touched }) {
         if (error && touched){
             return (
                 <div className='ui error message'>
-                    <div className='header'>{error}</div>
+                    <div className='error'>{error}</div>
                 </div>
             );
         }
@@ -18,33 +15,48 @@ class CreateVolunteerModalContent extends React.Component{
 
     renderInput = ( {input, label, meta}) => {
         const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
-        //console.log(meta);
-
         return (
             <div className={className}>
                 <label>{label}</label>
                 <input {...input } autoComplete='off' />
-                { this.renderError(meta)}
+                { (meta.touched && meta.error) && <span className='error'>{meta.error}</span> }
             </div>
         )
     }
 
-    onSubmit = formValues => {
-        console.log(formValues);
-        this.props.onSubmit(formValues);
+    renderRadio = ( {input, options, meta, label} ) => {
+        const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
+        return (
+            <div className={className}>
+                <label>{label}</label>
+                 {options.map((o) => 
+                    <label key={o.value}><input type='radio' {...input} value={o.value} checked={o.value === input.value} /> 
+                        {o.title} 
+                    </label>)
+                }
+                 { (meta.touched && meta.error) && <span className='error'>{meta.error}</span> }
+            </div>
+        );
     }
 
+    onSubmit = formValues => {       
+        this.props.onSubmit(formValues);
+    }    
+    
     render () {
         return (
             <form
                 onSubmit={this.props.handleSubmit(this.onSubmit)}
+                className='ui form error'
             >
-            <div className='ui form error'>
+            <div >
                 <div>
                     <Field
                         name='firstName'
                         component={this.renderInput}
-                        label='First Name' />
+                        label='First Name' 
+     
+                         />
                 </div>
                 <div>
                     <Field 
@@ -59,29 +71,16 @@ class CreateVolunteerModalContent extends React.Component{
                         label="E-mail Address"
                         type='email' />
                 </div>
-                <div>
-                    <div>
-                        <label>
-                        Valid BackGround Check on File
-                            <Field 
-                            name="backGroundCheck" 
-                            component="input"
-                            type='radio'
-                            value='true'
-                            />                            
-                        {" "}
-                        Yes
-                        </label>
-                        <label>
-                            <Field 
-                            name="backGroundCheck" 
-                            component='input' 
-                            type='radio'
-                            value='false'/>
-                        {" "}
-                        No
-                        </label>
-                    </div>
+                <div>                                       
+                    <Field 
+                        name="backGroundCheck" 
+                        component={this.renderRadio}
+                        label="Valid BackGround Check On File"
+                        options = {[
+                            { title : "Yes", value: "true"},
+                            { title : "No", value : 'false'}
+                        ]}
+                        />                                                    
                 </div>
                 <div>
                     <Field  
@@ -103,34 +102,25 @@ class CreateVolunteerModalContent extends React.Component{
                         type='text'
                         label="List Preferences for serving times"/>
                 </div>
-
-                
-
-                <button className='ui button primary'>Create Volunteer</button>
+                <button className='ui button primary' disabled={this.props.pristine || this.props.submitting}>Create Volunteer</button>
+                <button className='ui button negative' disabled={this.props.submitting} onClick={this.props.onDismiss}>Cancel</button>
             </div>
             </form>
         )
     }
 };
 
-const validateFields = formValues => {
+//validate is a keyword for Redux-Form
+const validate = formValues => {
     const errors = {};
-    if(!formValues.firstName){
-        errors.firstName = "You must enter a first name";
-    }
-    if(!formValues.lastName){
-        errors.lastName = "You must enter a last name";
-    }
-    if(!formValues.emailAddress){
-        errors.emailAddress = "You must enter an E-mail Address";
-    }
-    if(!formValues.backGroundCheck){
-        errors.backGroundCheck = "You must indicate that status of a current background check";
-    }
+    if(!formValues.firstName){        errors.firstName = "You must enter a first name";   }
+    if(!formValues.lastName){         errors.lastName = "You must enter a last name";  }
+    if(!formValues.emailAddress){     errors.emailAddress = "You must enter an E-mail Address";  }
+    if(!formValues.backGroundCheck){  errors.backGroundCheck = "You must indicate that status of a current background check";  }
     return errors;
 }
 
 export default reduxForm({
     form : 'createVolunteerForm',
-    validateFields
+    validate
 })(CreateVolunteerModalContent);

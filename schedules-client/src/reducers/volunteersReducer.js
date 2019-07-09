@@ -19,7 +19,7 @@ export default ( state = {}, action ) => {
         case UPDATE_VOLUNTEER:
             return {...state, [action.payload.id] : action.payload };
         case GET_ALL_VOLUNTEERS:
-            return {...state, ..._.mapKeys(action.payload, 'id')};
+            return {...state, ..._.mapKeys(action.payload, '_id')};
         case GET_ONE_VOLUNTEER:
             return {...state, [action.payload.id] : action.payload};
         default:
