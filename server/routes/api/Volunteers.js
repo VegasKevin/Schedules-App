@@ -14,10 +14,22 @@ const Volunteers = require('../../../models/Volunteers');
 //@desc     Get all VOlunteers
 //@access   ADMIN
 router.get("/", (req, res) =>{
-    //console.log("~~~~~~In get ALL");
-    Volunteers.find()
-    //.sort ({ name: -1 })
-    .then(volunteers => res.json(volunteers))
+    // console.log("~~~~~~In get ALL");
+    // console.log("req.body.firstName: " + req.body.firstName);
+    if(req.body.firstName){
+        Volunteers.find({ 'firstName' : req.body.firstName }, {firstName: 1})
+        .sort ({ lastName: 1 })
+        .then(volunteers => res.json(volunteers))
+        .catch(error => res.json(error));
+    }
+    if(req.body.lastName){
+        Volunteers.find({ 'lastName' : req.body.lastName }, {lastName: 1})
+        .sort ({ lastName: 1 })
+        .then(volunteers => res.json(volunteers))
+        .catch(error => res.json(error));
+    }
+    
+    
 });
 
 
@@ -28,6 +40,8 @@ router.get("/",
     [ check("firstName", "First Name Field Can't be empty").not().isEmpty() ], 
     (req, res) =>{
         if(requestHasErrors(req)){
+            console.log("~~~~~~In get ONE VOlunteer");
+            console.log("req.body: " + req.body);
             Volunteers.findOne({"firstName": req.body.firstName})
             .then (volunteer => res.json(volunteer))
             .catch(error => res.json(error));
@@ -52,7 +66,7 @@ router.post("/", [
         check("phoneNumber").optional()
     ],
     (req, res) => {
-        console.log("req.body.firstName: " + req.body.firstName);
+   //     console.log("req.body.firstName: " + req.body.firstName);
         if (requestHasErrors(req)) {            
             const newVolunteer = new Volunteers({
                 firstName : req.body.firstName,
@@ -66,7 +80,12 @@ router.post("/", [
         // Saving new Volunteer to MongoDB    
         newVolunteer
             .save()
-            .then(volunteers => res.json(volunteers))
+            .then(volunteers => {
+                res.json(volunteers),
+                console.log("volunteer._id:" + volunteers._id)}
+                )
+            
+            
             .catch(error => { console.log(error);
             });
         } else {
@@ -131,7 +150,7 @@ router.patch("/", [
 
 const requestHasErrors = (req) => {
     const validationErrors = validationResult(req);
-    console.log(validationErrors);
+    console.log("validation errors: " + validationErrors);
     if (!(validationErrors.isEmpty())) {
         return false;
     }
