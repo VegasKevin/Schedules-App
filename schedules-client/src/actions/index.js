@@ -14,16 +14,19 @@ export function getOneVolunteer (formValues) {
     return async dispatch => {
         function onSuccess(success) {
             dispatch({ type: GET_ONE_VOLUNTEER, payload : success.data});
-            console.log(success);
+            console.log("success: " + JSON.stringify(success.data));
             return success;
         }
         function onError(error) {
             dispatch({ type: ERROR_GENERATED, error });
+            console.log("error: " + error);
             return error;
         }
 
         try {
-            const success = await volunteers_Axios.get("/", {...formValues});
+            console.log("formValues: " + JSON.stringify(formValues));
+            const success = await volunteers_Axios.post("/search", { ...formValues });
+            
             return onSuccess(success);
         } catch(error){
             return onError(error);

@@ -32,14 +32,14 @@ class SearchVolunteerView extends React.Component {
                 <div>
                     <div>
                         <Field
-                            name="searchFirstName"
+                            name="firstName"
                             label='First Name'
                             component={this.renderSearchField}
                         />
                     </div>
                     <div>
                         <Field
-                            name='searchLastName'
+                            name='lastName'
                             label='Last Name'
                             component={this.renderSearchField}
                         />                

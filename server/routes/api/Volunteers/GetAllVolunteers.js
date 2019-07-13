@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { body, check, validationResult } = require("express-validator");
+const { body, check, validationResult, oneOf } = require("express-validator");
 
 /**
  * TODO : I need to determine response values; Add params to the comments for each endpoint;
@@ -8,27 +8,48 @@ const { body, check, validationResult } = require("express-validator");
  */
 
 //Volunteers Model (Schema)
-const Volunteers = require('../../../models/Volunteers');
+const Volunteers = require('../../../../models/Volunteers');
 
 //@route    GET api/volunteers
 //@desc     Get all VOlunteers
 //@access   ADMIN
-router.get("/", (req, res) =>{
+router.get("/", oneOf(
+    [
+        body("firstName", "First Name field can't be empty"),
+        body("lastName", "Last Name field can't be empty")
+    ]),
+    (req, res) =>{
     // console.log("~~~~~~In get ALL");
     // console.log("req.body.firstName: " + req.body.firstName);
-    if(req.body.firstName){
-        Volunteers.find({ 'firstName' : req.body.firstName }, {firstName: 1})
-        .sort ({ lastName: 1 })
-        .then(volunteers => res.json(volunteers))
-        .catch(error => res.json(error));
+    if(requestHasErrors(req)){
+        if(req.body.firstName && req.body.lastName){
+            console.log("vol API: BOTH");
+            Volunteers.find( { 'firstName' : req.body.firstName, 'lastName' : req.body.lastName})
+            .sort({ lastName : 1 })
+            .then(volunteers => res.json(volunteers))
+            .catch(error => res.json(error));
+        }else if(req.body.firstName && !req.body.lastName){
+            console.log("vol API: FIRST");
+            Volunteers.find({ 'firstName' : req.body.firstName })
+            .sort ({ lastName: 1 })
+            .then(volunteers => res.json(volunteers))
+            .catch(error => res.json(error));
+        }else if(!req.body.firstName && req.body.lastName){
+            console.log("vol API: LAST");
+            Volunteers.find({ 'lastName' : req.body.lastName })
+            .sort ({ lastName: 1 })
+            .then(volunteers => res.json(volunteers))
+            .catch(error => res.json(error));
+        } else{
+            console.log("vol API: NONE");
+            Volunteers.find({ })
+            .sort ({ lastName: 1 })
+            .then(volunteers => res.json(volunteers))
+            .catch(error => res.json(error));
+        }
+    } else {
+        return res.status(422).json({"Error" : validationErrors})
     }
-    if(req.body.lastName){
-        Volunteers.find({ 'lastName' : req.body.lastName }, {lastName: 1})
-        .sort ({ lastName: 1 })
-        .then(volunteers => res.json(volunteers))
-        .catch(error => res.json(error));
-    }
-    
     
 });
 
@@ -40,8 +61,6 @@ router.get("/",
     [ check("firstName", "First Name Field Can't be empty").not().isEmpty() ], 
     (req, res) =>{
         if(requestHasErrors(req)){
-            console.log("~~~~~~In get ONE VOlunteer");
-            console.log("req.body: " + req.body);
             Volunteers.findOne({"firstName": req.body.firstName})
             .then (volunteer => res.json(volunteer))
             .catch(error => res.json(error));
@@ -150,11 +169,12 @@ router.patch("/", [
 
 const requestHasErrors = (req) => {
     const validationErrors = validationResult(req);
-    console.log("validation errors: " + validationErrors);
+    
     if (!(validationErrors.isEmpty())) {
         return false;
     }
     else{
+        console.log("validation errors: " + validationErrors.mapped);
         return true;
     }
 }

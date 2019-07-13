@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 // The API Routes for the Volunteers Screeen
-const volunteers = require('./routes/api/Volunteers');
+const volunteers = require('./routes/api/Volunteers/GetAllVolunteers');
+const searchVolunteers = require('./routes/api/Volunteers/SearchGetVolunteers');
 
 const app = express();
 
@@ -26,6 +27,7 @@ mongoose
 
 //Use Routes
 app.use("/api/volunteers", volunteers);
+app.use("/api/volunteers/search", searchVolunteers);
 
 const port = process.env.PORT || 5000;
 

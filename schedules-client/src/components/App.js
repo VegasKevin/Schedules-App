@@ -11,7 +11,7 @@ import {ministry_Test} from '../models/test models/ministry_Test';
 import ministry_Tabs_Bar from './schedules/ministry_Tabs_Bar';
 
 //Components
-import Main_Volunteers_View from './volunteers/Main_Volunteers_View';
+import MainVolunteersView from './volunteers/Main_Volunteers_View';
 import CreateVolunteerView from './volunteers/CreateVolunteerView';
 
 //const RouteArray = [{"key":"1", "path" : "/","component":main}, {"key":"2", "path":"/two","component":two}, {"key":"3", "path":"/three", "component":three}];
@@ -35,7 +35,7 @@ const App = () => {
             <Router history={history}>                    
                 <Switch>
                     {ministryMap}                                   
-                    <Route path="/volunteers" exact component={Main_Volunteers_View}/>
+                    <Route path="/volunteers" exact component={() => <MainVolunteersView/>}/>
                     <Route path="/volunteers/create" exact component={props => <CreateVolunteerView {...props}/>} />
                 </Switch>
             </Router>            
