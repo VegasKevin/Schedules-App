@@ -1,41 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+ import { connect } from 'react-redux';
 
 import VolunteerListView from './VolunteerListView';
 import SearchVolunteerView from './SearchVolunteerView';
-import { getOneVolunteer } from '../../actions';
+// import { getOneVolunteer } from '../../actions';
+import SearchResultsDisplay from './SearchResultsDisplay';
 
 //import Create_Volunteer_View from './Create_Volunteer_View';
 class Main_Volunteers_View extends React.Component{
-
-    renderSearchResults () {
-        console.log("searchVolunteers bool: " + this.props.searchVolunteers);
-        if(this.props.searchVolunteers){
-            console.log("searchVolunteers: " + JSON.stringify(this.props.searchVolunteers));
-            return this.props.searchVolunteers.map(volunteer => {
-                console.log("~~FIRST: " + volunteer)
-                return (
-                    <div key={volunteer._id}>
-                        {volunteer.firstName} {volunteer.lastName}
-                    </div>
-                )
-            })
-        }
-        
+    componentWillUpdate () {
+        console.log("::::");
+        this.renderSearchResultsDisplay()
     }
-
-    render() {
+    
+     
+        render() {
         return (
             <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
                 <div>
                     main_Volunteers_View
                 </div>
-                <div>
-                <Link to="/volunteers/create"
-                    className='ui button'>
-                        Create New Volunteer
-                </Link>
+                <div style={{display:'flex', flexDirection:'column', justifyContent:'space-around'}}>
+                    <div>
+                    <Link to="/volunteers/create"
+                        className='ui button'>
+                            Create New Volunteer
+                    </Link>
+                    </div>
+                    <div>
+                        <Link to='/volunteers/*****'
+                                className='ui button'>
+                            Update Volunteer
+                        </Link>
+                    </div>
                 </div>                
                 <div>
                     <VolunteerListView/>
@@ -44,11 +42,10 @@ class Main_Volunteers_View extends React.Component{
                     <SearchVolunteerView
                         //onSubmit={this.onSubmit}
                      />
+                    <SearchResultsDisplay/>
                     
-                    <div>
-                        {this.renderSearchResults()}
-                        hi
-                    </div>
+                    
+
                 </div>
                 
                 
@@ -57,10 +54,10 @@ class Main_Volunteers_View extends React.Component{
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ searchVolunteers}) => {
     return {
-        searchVolunteers : state.searchVolunteers
+        searchVolunteers
     }
 }
 
-export default connect (mapStateToProps, {getOneVolunteer}) (Main_Volunteers_View);
+export default connect (mapStateToProps, {}) (Main_Volunteers_View);

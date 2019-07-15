@@ -1,0 +1,9 @@
+/*Different styles for the List.Items used in VolunteerInfoDisplay and VolunteerListView*/
+
+.activeStyle {
+    background-color: lightblue;
+}
+
+.inactiveStyle{
+    background-color: 'inherit'
+}

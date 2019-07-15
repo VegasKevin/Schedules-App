@@ -53,9 +53,21 @@ class SearchVolunteerView extends React.Component {
     }
 
 }
+const validate = formValues => {
+    const errors = {};
+    if(formValues.firstName !== undefined){
+        if(formValues.firstName.length > 15){        errors.firstName = "First Name is too many characters";   }
+      }
+    if(formValues.lastName !== undefined){
+        if(formValues.lastName.length > 20){         errors.lastName = "Last Name is too  many characters";  }
+    }
+    
+    return errors;
+}
 
 const decoratedWithRedux = connect (null, {getOneVolunteer})(SearchVolunteerView);
 export default 
     reduxForm ({
-        form : "SearchVolunteerForm"
+        form : "SearchVolunteerForm",
+        validate
     }) (decoratedWithRedux);

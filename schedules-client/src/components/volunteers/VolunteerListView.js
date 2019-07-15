@@ -1,35 +1,46 @@
 import React from 'react';
 
-import { getAllVolunteers } from '../../actions';
 import { connect } from 'react-redux';
+import { List } from 'semantic-ui-react';
+
+import { getAllVolunteers } from '../../actions';
+import  VolunteerInfoDisplay  from './VolunteerInfoDisplay';
 
 class VolunteerListView extends React.Component{
+
+        state = {
+            activeIndex : false
+        }
+        
         componentDidMount () {
             this.props.getAllVolunteers();            
         }
 
+        handleToggle (index) {
+            this.setState({activeIndex : index});
+         }
+
+         handleToggle = this.handleToggle.bind(this);        
+
          renderVolunteerList  () {            
-            return this.props.volunteers.map(volunteer => {                
-                
-               // console.log(volunteer);
-                    // if(volunteer._id == undefined) {
-                    //     return (
-                    //     <div>
-                    //         volunteer._id == undefined
-                    //     </div>)
-                    // }else {
+            var active = this.state.activeIndex;
+            return this.props.volunteers.volunteers.map(function(volunteer, index)  {                
+
                     if(volunteer._id !== undefined && volunteer._id !== null){
                         return (
-                            <div key={volunteer._id}>
-                                {volunteer.name} {volunteer.firstName} {volunteer.lastName}              
-                            </div>
-                        )                    
+                            <VolunteerInfoDisplay
+                                active={index === active}
+                                onToggle={this.handleToggle.bind(null, index)}
+                                key={volunteer._id}
+                                firstName={volunteer.firstName}
+                                lastName={volunteer.lastName}
+                                _id = {volunteer._id}
+                            />
+                        )                                            
                     } else {
                         return (<div></div>)
-                    }
-                    //}
-                    
-                });
+                    }                    
+                }, this);
         }
             
         
@@ -37,18 +48,19 @@ class VolunteerListView extends React.Component{
             return (
                 <div>
                     <h2>Names</h2>
-                    <div className='ui celled list'>
-                        {this.renderVolunteerList()}
-                        
+                    <div>
+                        <List className='ui celled selection list'>                            
+                            {this.renderVolunteerList()}                        
+                        </List>                       
                     </div>
                 </div>
             );
         };
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ( { volunteers } ) => {
     return {
-        volunteers : Object.values(state.volunteers)
+        volunteers
     }
 }
 
