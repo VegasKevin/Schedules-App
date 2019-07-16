@@ -100,8 +100,9 @@ router.post("/", [
         newVolunteer
             .save()
             .then(volunteers => {
-                res.json(volunteers),
-                console.log("volunteer._id:" + volunteers._id)}
+                res.json(volunteers)//,
+            //    console.log("volunteer._id:" + volunteers._id)
+            }
                 )
             
             
@@ -145,13 +146,14 @@ router.patch("/", [
         check("phoneNumber")
 ],
     (req, res) => {
+        console.log('patch reqbody: ' + JSON.stringify(req.body));
         if(requestHasErrors(req)){
             //This will require that each PATCH Request sends the whole object's data, including unchanged data
-            Volunteers.findById(req.body.id)
+            Volunteers.findById(req.body._id)
             .then(volunteer => 
                 volunteer.updateOne({$set : {
-                    "firstName" : req.body.FirstName,
-                    "lastName" : req.body.LastName,
+                    "firstName" : req.body.firstName,
+                    "lastName" : req.body.lastName,
                     "emailAddress" : req.body.emailAddress,
                     "backGroundCheck" : req.body.backGroundCheck,
                     "preferences" : req.body.preferences,
@@ -174,7 +176,7 @@ const requestHasErrors = (req) => {
         return false;
     }
     else{
-        console.log("validation errors: " + validationErrors.mapped);
+       // console.log("validation errors: " + validationErrors.mapped);
         return true;
     }
 }

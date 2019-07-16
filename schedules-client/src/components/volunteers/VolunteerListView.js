@@ -3,8 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { List } from 'semantic-ui-react';
 
-import { getAllVolunteers } from '../../actions';
+import { getAllVolunteers, selectVolunteer } from '../../actions';
 import  VolunteerInfoDisplay  from './VolunteerInfoDisplay';
+
 
 class VolunteerListView extends React.Component{
 
@@ -18,7 +19,15 @@ class VolunteerListView extends React.Component{
 
         handleToggle (index) {
             this.setState({activeIndex : index});
+            //console.log("!!!test!!: " + JSON.stringify(this.props.volunteers.volunteers[index]));
+            this.props.selectVolunteer(this.props.volunteers.volunteers[index]);
+            console.log("volSelected: "  + JSON.stringify(this.props.volunteers.volunteerSelected));
          }
+
+        //  componentDidUpdate () {
+        //     // this.props.selectVolunteer(this.props.volunteers.volunteers[this.state.activeIndex]);
+             
+        //  }
 
          handleToggle = this.handleToggle.bind(this);        
 
@@ -35,6 +44,7 @@ class VolunteerListView extends React.Component{
                                 firstName={volunteer.firstName}
                                 lastName={volunteer.lastName}
                                 _id = {volunteer._id}
+                                
                             />
                         )                                            
                     } else {
@@ -58,10 +68,18 @@ class VolunteerListView extends React.Component{
         };
 }
 
-const mapStateToProps = ( { volunteers } ) => {
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         selectVolunteer : (volunteerSelected) => {dispatch(selectVolunteer(volunteerSelected))},
+//         getAllVolunteers : () => {dispatch(getAllVolunteers())}
+//     }
+// }
+
+const mapStateToProps = ( state/*{ volunteers, volunteerSelected }*/ ) => {
     return {
-        volunteers
+        volunteers : state.volunteers,
+        volunteerSelected : state.volunteers.volunteerSelected
     }
 }
 
-export default connect(mapStateToProps, { getAllVolunteers })(VolunteerListView);
+export default connect(mapStateToProps, { getAllVolunteers, selectVolunteer })(VolunteerListView);

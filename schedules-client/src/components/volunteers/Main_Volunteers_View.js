@@ -10,12 +10,15 @@ import SearchResultsDisplay from './SearchResultsDisplay';
 //import Create_Volunteer_View from './Create_Volunteer_View';
 class Main_Volunteers_View extends React.Component{
     componentWillUpdate () {
-        console.log("::::");
-        this.renderSearchResultsDisplay()
+        // console.log("::::");
+        // console.log("selected " + this.state.volunteers.volunteerSelected);
+       // this.renderSearchResultsDisplay()
+
     }
     
      
         render() {
+        //console.log("selected " + this.props.volunteerSelected);
         return (
             <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
                 <div>
@@ -23,14 +26,17 @@ class Main_Volunteers_View extends React.Component{
                 </div>
                 <div style={{display:'flex', flexDirection:'column', justifyContent:'space-around'}}>
                     <div>
-                    <Link to="/volunteers/create"
-                        className='ui button'>
-                            Create New Volunteer
-                    </Link>
+                        <Link to="/volunteers/create"
+                            className='ui button'>
+                                Create New Volunteer
+                        </Link>
                     </div>
                     <div>
-                        <Link to='/volunteers/*****'
-                                className='ui button'>
+                        {/* <div>{this.props.volunteerSelected.firstName}</div> */}
+                        <Link to={(this.props.volunteerSelected !== undefined && this.props.volunteerSelected !== null) ? "/volunteers/update" : "/volunteers"}
+                                className='ui button'
+                              //  disabled={(this.props.volunteerSelected === null) ? true : false }
+                              >
                             Update Volunteer
                         </Link>
                     </div>
@@ -54,10 +60,13 @@ class Main_Volunteers_View extends React.Component{
     }
 }
 
-const mapStateToProps = ({ searchVolunteers}) => {
+
+
+const mapStateToProps = (state/*{ searchVolunteers, volunteerSelected}*/) => {
     return {
-        searchVolunteers
+        searchVolunteers :state.volunteers.searchVolunteers,
+        volunteerSelected : state.volunteers.volunteerSelected
     }
 }
 
-export default connect (mapStateToProps, {}) (Main_Volunteers_View);
+export default connect (mapStateToProps, null) (Main_Volunteers_View);

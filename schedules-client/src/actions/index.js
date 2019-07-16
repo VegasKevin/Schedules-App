@@ -7,7 +7,8 @@ import {
     UPDATE_VOLUNTEER,
     GET_ALL_VOLUNTEERS,
     GET_ONE_VOLUNTEER,
-    ERROR_GENERATED
+    ERROR_GENERATED,
+    VOLUNTEER_SELECTED
 } from './types';
 
 export function getOneVolunteer (formValues) {
@@ -72,6 +73,42 @@ export function getAllVolunteers () {
             return onError(error);
         }
     }
+}
+
+export function updateVolunteer (formValues) {
+    console.log("action.index patch: " + formValues);
+    return async dispatch => {
+        function onSuccess(success) {
+            dispatch({ type: UPDATE_VOLUNTEER, payload: success.data}) //maybe just 'success'
+            history.push('/volunteers')
+            return success;
+        }
+        function onError(error) {
+            dispatch({ type: ERROR_GENERATED, error})
+            return error;
+        } 
+        try {
+            const success = await volunteers_Axios.patch('/', {...formValues});
+            return onSuccess(success);
+        }catch(error) {
+            return onError(error);
+        }
+    }
+}
+
+export function selectVolunteer (selectedVolunteer) {
+    // const volunteers = {}
+    //console.log("actions/index.js selectedVolunteer: " + JSON.stringify(selectedVolunteer));
+    return (dispatch) => {
+    //     if(selectedVolunteer === undefined){
+    //       volunteers.volunteerSelected = null;  
+    //     }
+    //     else {
+    //         volunteers.volunteerSelected = selectVolunteer;
+    //   //      console.log("index : payload: " + JSON.stringify(selectedVolunteer));
+    //     }
+        dispatch( { type: VOLUNTEER_SELECTED, payload : selectedVolunteer})
+    }        
 }
 
 // export const getAllVolunteers = () => async (dispatch) => {

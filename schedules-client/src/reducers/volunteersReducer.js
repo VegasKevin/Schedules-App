@@ -5,12 +5,14 @@ import {
     DELETE_VOLUNTEER, 
     UPDATE_VOLUNTEER, 
     GET_ALL_VOLUNTEERS, 
-    GET_ONE_VOLUNTEER
+    GET_ONE_VOLUNTEER,
+    VOLUNTEER_SELECTED
 } from '../actions/types';
 
 const INITIAL_STATE = {    
                     volunteers : [],
-                    searchVolunteers : []
+                    searchVolunteers : [],
+                    volunteerSelected : null
                 }
 
 export default ( state =  INITIAL_STATE , action ) => {
@@ -34,10 +36,16 @@ export default ( state =  INITIAL_STATE , action ) => {
         case GET_ONE_VOLUNTEER:{
           //  console.log('payload: ' + JSON.stringify(action.payload));
             //console.log('searchVOls: ' + JSON.stringify(state.searchVolunteers))
-            console.log("reducer State: " + JSON.stringify(action.payload));
+            //console.log("reducer State: " + JSON.stringify(action.payload));
             return {...state, 
                 searchVolunteers : action.payload
             }//..._.mapKeys(action.payload, '_id')}; 
+        }
+        case VOLUNTEER_SELECTED : {
+            //console.log("reducer payload: " + JSON.stringify(action.payload));
+            return {...state, 
+                volunteerSelected : action.payload
+            }
         }
         default:
             return state;
