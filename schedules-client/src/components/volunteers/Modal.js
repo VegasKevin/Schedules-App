@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import util from 'util';
+// import util from 'util';
 
 const Modal = props => {
     //console.log('Modal props:' + props);

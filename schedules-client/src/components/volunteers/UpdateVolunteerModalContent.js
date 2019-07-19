@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { reduxForm, Field } from 'redux-form';
+import history from '../../history';
+import { connect} from 'react-redux';
 
 class UpdateVolunteerModalContent extends React.Component {
 
-    renderError ( { error, touched }) {
-        if (error && touched){
+    renderError ( { error, touched, meta }) {
+        if (error && touched && !(meta.pristine)){
             return (
                 <div className='ui error message'>
                     <div className='error'>{error}</div>
@@ -15,18 +17,20 @@ class UpdateVolunteerModalContent extends React.Component {
     }
 
     renderInput = ( {input, label, meta, givenValue}) => {
-        //console.log('input ' + JSON.stringify(input));
+        console.log('input ' + JSON.stringify(input));
         //console.log('touched: ' + meta.touched);
         const className = `field ${(meta.error && meta.touched && !(meta.pristine)) ? 'error' : ''}`;
         //console.log("meta: " + JSON.stringify(meta));
         return (
             <div className={className}>
                 <label>{label}</label>
-                <input  /*{...input }*/ autoComplete='off' defaultValue={givenValue}   />
-                { (meta.touched && meta.error && !(meta.pristine)) && <span className='error'>{meta.error}</span> }
+                <input  editable="true" /*defaultValue={{...input.value} }*/ autoComplete='off' value={{...input}}   />
+                { (meta.touched && meta.error && (meta.pristine)) && <span className='error'>{meta.error}</span> }
             </div>
         )
     }
+
+    
 
     renderRadio = ( {input, options, meta, label, givenValue} ) => {
         const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
@@ -48,15 +52,16 @@ class UpdateVolunteerModalContent extends React.Component {
     }
 
     onSubmit = formValues => {       
-        this.props.onSubmit(formValues);
         console.log("on submit in UpdateVOlModalContent.js")
+        this.props.onSubmit(formValues);
+        
     }
 
     
     render () {
         return (
             <form
-                onSubmit={this.props.handleSubmit(this.onSubmit)}
+                onSubmit={() => {console.log("wjjkd:" + JSON.stringify(this.props)); this.props.handleSubmit(this.onSubmit); history.push('/volunteers');}}
                 className='ui form error'
             >
             <div >
@@ -65,14 +70,14 @@ class UpdateVolunteerModalContent extends React.Component {
                         name='firstName'
                         component={this.renderInput}
                         label='First Name'
-                        givenValue={this.props.volunteerselected.firstName}   />
+                        givenValue={this.props.volunteerSelected.firstName}   />
                 </div>
                 <div>
                     <Field 
                         name='lastName'
                         component={this.renderInput}
                         label="Last Name"
-                        givenValue={this.props.volunteerselected.lastName} />
+                        givenValue={this.props.volunteerSelected.lastName} />
                 </div>
                 <div>
                     <Field
@@ -80,7 +85,7 @@ class UpdateVolunteerModalContent extends React.Component {
                         component={this.renderInput}
                         label="E-mail Address"
                         type='email' 
-                        givenValue={this.props.volunteerselected.emailAddress}  />
+                        givenValue={this.props.volunteerSelected.emailAddress}  />
                 </div>
                 <div>                                       
                     <Field 
@@ -91,14 +96,14 @@ class UpdateVolunteerModalContent extends React.Component {
                             { title : "Yes", value: "true"},
                             { title : "No", value : "false"}
                         ]}
-                        givenValue={this.props.volunteerselected.backGroundCheck} />                                                    
+                        givenValue={this.props.volunteerSelected.backGroundCheck} />                                                    
                 </div>
                 <div>
                     <Field  
                         name="phoneNumber"
                         component={this.renderInput}
                         label="Phone Number"
-                        givenValue={this.props.volunteerselected.phoneNumber} />
+                        givenValue={this.props.volunteerSelected.phoneNumber} />
                 </div>
                 <div>
                     <Field 
@@ -106,7 +111,7 @@ class UpdateVolunteerModalContent extends React.Component {
                         component={this.renderInput}
                         type='text'
                         label="List Ministries they volunteer in"
-                        givenValue={this.props.volunteerselected.ministries} />
+                        givenValue={this.props.volunteerSelected.ministries} />
                 </div>
                 <div>
                     <Field  
@@ -114,10 +119,10 @@ class UpdateVolunteerModalContent extends React.Component {
                         component={this.renderInput}
                         type='text'
                         label="List Preferences for serving times"
-                        givenValue={this.props.volunteerselected.preferences}  />
+                        givenValue={this.props.volunteerSelected.preferences}  />
                 </div>
-                <button className='ui button primary' disabled={this.props.pristine || this.props.submitting}>Update Volunteer</button>
-                <button className='ui button negative' disabled={this.props.submitting} onClick={this.props.onDismiss}>Cancel</button>
+                <button type='submit' className='ui button primary' disabled={this.props.pristine || this.props.submitting}>Update Volunteer</button>
+                <button type='button' className='ui button negative' disabled={this.props.submitting} onClick={this.props.onDismiss}>Cancel</button>
             </div>
             </form>
         )
@@ -128,6 +133,7 @@ class UpdateVolunteerModalContent extends React.Component {
 //validate is a keyword for Redux-Form
 const validate = formValues => {
     const errors = {};
+    console.log("validate in UpdateVOlModalContent.js")
     if(!formValues.firstName){        errors.firstName = "You must enter a first name";   }
     if(!formValues.lastName){         errors.lastName = "You must enter a last name";  }
     if(!formValues.emailAddress){     errors.emailAddress = "You must enter an E-mail Address";  }
@@ -135,9 +141,21 @@ const validate = formValues => {
     return errors;
 }
 
-export default reduxForm({
-    form : 'updateVolunteerForm',
-    validate
-})(UpdateVolunteerModalContent);
+const mapStateToProps = ( state, props) =>{
+   return  {
+        volunteerSelected : state.volunteers.volunteerSelected
+    }
+}
 
-//export default UpdateVolunteerModalContent;
+const wrappedConnect = connect(
+    mapStateToProps
+)(UpdateVolunteerModalContent);
+
+export default /*connect (mapStateToProps)*/
+     reduxForm({
+    form : 'updateVolunteerForm',
+    enableReinitialize: true,
+    validate
+})(wrappedConnect)/*(UpdateVolunteerModalContent);*/
+
+//export default UpdateVolunteerModalContent

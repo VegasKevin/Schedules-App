@@ -79,7 +79,7 @@ export function updateVolunteer (formValues) {
     console.log("action.index patch: " + formValues);
     return async dispatch => {
         function onSuccess(success) {
-            dispatch({ type: UPDATE_VOLUNTEER, payload: success.data}) //maybe just 'success'
+        dispatch({ type: UPDATE_VOLUNTEER, payload: success.data}) //maybe just 'success'
             history.push('/volunteers')
             return success;
         }
