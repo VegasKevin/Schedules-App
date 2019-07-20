@@ -1,0 +1,32 @@
+language : node_js
+node_js:
+  - "10"
+
+install:
+  #npm ci
+  #npm i --save-dev mocha  
+  #npm i --save-dev chai  
+  #Proper installation of Mocha to make it a Dependency?
+  #Installation to make Chai a dependency?
+  # npm install --save-dev jest
+  #Mocha will be accessable by : ./node_modules/mocha/bin/mocha
+  #npm test
+  
+
+#cache:
+#  directories:
+#    - "node_modules"
+
+
+
+
+
+
+  env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8

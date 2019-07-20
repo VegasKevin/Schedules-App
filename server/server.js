@@ -1,17 +1,21 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-
-//DB Config from config/configKeys.js
-const db = require("../config/configKeys").mongoURI;
-
+const cors = require("cors");
 // The API Routes for the Volunteers Screeen
-const volunteers = require('./routes/api/Volunteers');
+const volunteers = require('./routes/api/Volunteers/GetAllVolunteers');
+const searchVolunteers = require('./routes/api/Volunteers/SearchGetVolunteers');
 
 const app = express();
 
 // The BodyParser Middleware
 app.use(bodyParser.json());
+
+//Enable CORS using an 'npm cors' package
+app.use(cors());
+
+//DB Config from config/configKeys.js
+const db = require("../config/configKeys").mongoURI;
 
 //Connect to Mongo Databse
 mongoose
@@ -19,8 +23,11 @@ mongoose
     .then(() => console.log("MongoDB is Connected."))
     .catch(err => console.log("~~~~~~~~" + err));
 
+
+
 //Use Routes
 app.use("/api/volunteers", volunteers);
+app.use("/api/volunteers/search", searchVolunteers);
 
 const port = process.env.PORT || 5000;
 
