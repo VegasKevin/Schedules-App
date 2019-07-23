@@ -16,7 +16,7 @@ router.post("/", oneOf(
         body("lastName", "Last Name field can't be empty").exists()
     ]),
     (req, res) =>{
-        console.log("req.body Stringify: " + JSON.stringify(req.body));
+        //console.log("req.body Stringify: " + JSON.stringify(req.body));
     if(requestHasErrors(req)){
         if(req.body.firstName && req.body.lastName){
        //     console.log("both~~~~");

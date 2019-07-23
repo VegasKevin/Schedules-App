@@ -28,6 +28,7 @@ class SearchResultDisplay extends React.Component {
                         lastName={volunteer.lastName}
                         backGroundCheck={volunteer.backGroundCheck}
                         emailAddress={volunteer.emailAddress}
+                        phoneNumber={volunteer.phoneNumber}
                         ministries={volunteer.ministries}
                         preferences={volunteer.preferences}
                     />

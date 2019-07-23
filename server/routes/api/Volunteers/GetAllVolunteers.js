@@ -23,25 +23,25 @@ router.get("/", oneOf(
     // console.log("req.body.firstName: " + req.body.firstName);
     if(requestHasErrors(req)){
         if(req.body.firstName && req.body.lastName){
-            console.log("vol API: BOTH");
+            //console.log("vol API: BOTH");
             Volunteers.find( { 'firstName' : req.body.firstName, 'lastName' : req.body.lastName})
             .sort({ lastName : 1 })
             .then(volunteers => res.json(volunteers))
             .catch(error => res.json(error));
         }else if(req.body.firstName && !req.body.lastName){
-            console.log("vol API: FIRST");
+            //console.log("vol API: FIRST");
             Volunteers.find({ 'firstName' : req.body.firstName })
             .sort ({ lastName: 1 })
             .then(volunteers => res.json(volunteers))
             .catch(error => res.json(error));
         }else if(!req.body.firstName && req.body.lastName){
-            console.log("vol API: LAST");
+            //console.log("vol API: LAST");
             Volunteers.find({ 'lastName' : req.body.lastName })
             .sort ({ lastName: 1 })
             .then(volunteers => res.json(volunteers))
             .catch(error => res.json(error));
         } else{
-            console.log("vol API: NONE");
+            //console.log("vol API: NONE");
             Volunteers.find({ })
             .sort ({ lastName: 1 })
             .then(volunteers => res.json(volunteers))
@@ -171,7 +171,7 @@ router.delete("/", [
 
 const requestHasErrors = (req) => {
     const validationErrors = validationResult(req);
-    console.log("validation errors: " + JSON.stringify(validationErrors));
+    //console.log("validation errors: " + JSON.stringify(validationErrors));
     
     if (!(validationErrors.isEmpty())) {
         return false;

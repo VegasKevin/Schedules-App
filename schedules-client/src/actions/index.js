@@ -79,6 +79,7 @@ export function updateVolunteer (formValues) {
     console.log("action.index patch: " + formValues);
     return async dispatch => {
         function onSuccess(success) {
+            console.log("success: " + JSON.stringify(success))
         dispatch({ type: UPDATE_VOLUNTEER, payload: success.data}) //maybe just 'success'
             history.push('/volunteers')
             return success;
@@ -88,6 +89,7 @@ export function updateVolunteer (formValues) {
             return error;
         } 
         try {
+            console.log('formValues @ index.js client: ' + JSON.stringify(formValues));
             const success = await volunteers_Axios.patch('/', {...formValues});
             return onSuccess(success);
         }catch(error) {

@@ -34,8 +34,8 @@ mongoose
 
 //Use Routes
 // app.use(volunteers, patchVolunteer)
-app.use("/api/volunteers", patchVolunteer);
 app.use("/api/volunteers", volunteers);
+app.use("/api/volunteers", patchVolunteer);
 
 app.use("/api/volunteers/search", searchVolunteers);
 

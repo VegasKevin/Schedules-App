@@ -18,22 +18,12 @@ router.patch("/", [
     check("phoneNumber").optional()
 ],
 (req, res) => {
-    console.log('patch reqbody: ' + JSON.stringify(req.body));
-    console.log("hasOwnProperty: " + req.body.hasOwnProperty("firstName"))
     if(requestHasErrors(req)){
+        console.log("server req.body: " + JSON.stringify(req.body));
         //This will require that each PATCH Request sends the whole object's data, including unchanged data
         Volunteers.findById(req.body._id)
         .then(volunteer => 
-        //     volunteer.update({$set : { "firstName" : (req.body.firstName) ? req.body.firstName : this.volunteer.firstName }}),
-        //    // volunteer.update({$set : { "lastName" : (req.body.lastName)  ? req.body.lastName : this.volunteer.lastName}}),
-        //     volunteer.update({$set : { "emailAddress" : (req.body.emailAddress)  ? req.body.emailAddress : this.volunteer.emailAddress}}),
-        //     volunteer.update({$set : { "backGroundCheck" : (req.body.backGroundCheck)  ? req.body.backGroundCheck : this.volunteer.backGroundCheck }}),
-        //     volunteer.update({$set : { "preferences" : (req.body.preferences)  ? req.body.preferences : this.volunteer.preferences}}),
-        //     volunteer.update({$set : { "ministries" : (req.body.ministries)  ? req.body.ministries : this.volunteer.ministries}}),
-        //     volunteer.update({$set : { "phoneNumber" : (req.body.phoneNumber)  ? req.body.phoneNumber : this.volunteer.phoneNumber}})
-        
-         //res.state(411).json("Error" : "Volunteer wasn't found")}
-            volunteer.update({$set : {
+            volunteer.updateOne({$set : {
                 "firstName" : (req.body.firstName) ?  req.body.firstName : volunteer.firstName,
                  "lastName" : (req.body.lastName) ? req.body.lastName : volunteer.lastName,
                  "emailAddress" : (req.body.emailAddress) ? req.body.emailAddress : volunteer.emailAddress,
@@ -41,25 +31,17 @@ router.patch("/", [
                  "preferences" : (req.body.preferences) ? req.body.preferences : volunteer.preferences, 
                  "ministries" : (req.body.ministries) ? req.body.ministries : volunteer.ministries,
                  "phoneNumber" : (req.body.phoneNumber) ? req.body.phoneNumber : volunteer.phoneNumber
-         }})
+         }}),
+         res.status(204).json(),
     )
-        .then(() => res.json({ "New Volunteer info" : volunteer}))
-        .catch(error => res.status(404).json({ "Error Message" : error}))
+        //.then(res.status(204).json())
+        // .catch(error => {
+        //     res.status(404).json({ "Error Message" : error})})
     }
     else {
         return res.status(422).json({"Error" : "Parameters weren't formatted properly"});
     }
 });
-
-checkRequestBody = (req, volunteer) => {
-        if(req.body.hasOwnProperty("firstName")) { volunteer.updateOne({$set : { "firstName" : req.body.firstName }}); console.log("~~~firstName") }
-        if(req.body.hasOwnProperty("lastName")) { volunteer.updateOne({$set : { "lastName" : req.body.lastName }}) }
-        if(req.body.hasOwnProperty("emailAddress")) { volunteer.updateOne({$set : { "emailAddress" : req.body.emailAddress }}) }
-        if(req.body.hasOwnProperty("backGroundCheck")) { volunteer.updateOne({$set : { "backGroundCheck" : req.body.backGroundCheck }}) }
-        if(req.body.hasOwnProperty("preferences")) { volunteer.updateOne({$set : { "preferences" : req.body.preferences }}) }
-        if(req.body.hasOwnProperty("ministries")) { volunteer.updateOne({$set : { "ministries" : req.body.ministries }}) }
-        if(req.body.hasOwnProperty("phoneNumber")) { volunteer.updateOne({$set : { "phoneNumber" : req.body.phoneNumber }}) }
-}
 
 const requestHasErrors = (req) => {
     const validationErrors = validationResult(req);

@@ -27,6 +27,12 @@ class UpdateVolunteerModalContent extends React.Component {
         )
     }
 
+    /*renderHidden = ( {givenValue, input}) => {
+        return (
+            <input value={givenValue} type='hidden' {...input}/>
+        )
+    }*/
+
     
 
     renderRadio = ( {input, options, meta, label} ) => {
@@ -45,8 +51,9 @@ class UpdateVolunteerModalContent extends React.Component {
         );
     }
 
-    onSubmit = formValues => {       
-        console.log("on submit in UpdateVOlModalContent.js")
+    onSubmit = (formValues,e) => {       
+        //e.preventDefault();
+        console.log("on submit in UpdateVOlModalContent.js");
         this.props.onSubmit(formValues);
         
     }
@@ -55,7 +62,8 @@ class UpdateVolunteerModalContent extends React.Component {
     render () {
         return (
             <form
-                onSubmit={() => {console.log("wjjkd:" + JSON.stringify(this.props)); this.props.handleSubmit(this.onSubmit); history.push('/volunteers');}}
+                //onSubmit={() => {/*console.log("wjjkd:" + JSON.stringify(this.props));*/ this.props.handleSubmit() /*history.push('/volunteers');*/}}
+                onSubmit={this.props.handleSubmit}
                 className='ui form error'
             >
             <div >
@@ -115,7 +123,17 @@ class UpdateVolunteerModalContent extends React.Component {
                         label="List Preferences for serving times"
                         />
                 </div>
-                <button type='submit' className='ui button primary' disabled={this.props.pristine || this.props.submitting}>Update Volunteer</button>
+                {/* <div>
+                    <Field
+                        name='_id'
+                        type="hidden"
+                        //value={this.props.volunteerSelected._id}
+                        givenValue={this.props.volunteerSelected._id}
+                        component={this.renderHidden}
+
+                        />
+                </div>*/}
+                <button type='submit' className='ui button primary' disabled={this.props.pristine || this.props.submitting}>Update Volunteer</button> 
                 <button type='button' className='ui button negative' disabled={this.props.submitting} onClick={this.props.onDismiss}>Cancel</button>
             </div>
             </form>
@@ -141,15 +159,27 @@ const mapStateToProps = ( state, props) =>{
     }
 }
 
+UpdateVolunteerModalContent = reduxForm({
+    form: 'updateVolunteerForm',
+})(UpdateVolunteerModalContent)
+
+UpdateVolunteerModalContent = connect ( 
+    state => ({
+        initialValues : state.volunteers.volunteerSelected
+    }),
+    {load : ''/*action creator? */}
+)(UpdateVolunteerModalContent);
+
+export default UpdateVolunteerModalContent;
+/*
 const wrappedConnect = connect(
     mapStateToProps
 )(UpdateVolunteerModalContent);
 
-export default /*connect (mapStateToProps)*/
+export default 
      reduxForm({
     form : 'updateVolunteerForm',
     enableReinitialize: true,
-    //validate
-})(wrappedConnect)/*(UpdateVolunteerModalContent);*/
-
-//export default UpdateVolunteerModalContent
+    validate
+})(wrappedConnect)
+*/

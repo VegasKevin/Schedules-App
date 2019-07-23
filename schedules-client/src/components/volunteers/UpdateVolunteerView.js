@@ -11,13 +11,15 @@ import VolunteerInfoDisplay from './VolunteerInfoDisplay';
 
 class UpdateVolunteerView extends React.Component {
 
-    onSubmit = formValues => {
+    onSubmit = (formValues, e) => {
+        //e.preventDefault();
         this.props.updateVolunteer(formValues);
         console.log('did on submit in UpdateVolunteerVIew.js');
     }
 
     render () {
         //console.log('update view: ' + JSON.stringify(this.props.volunteerSelected));
+        console.log("Phone#: " + this.props.volunteerSelected.phoneNumber)
         return (
             <Modal 
                 title="UpdateVolunteer"/*{`Update Volunteer:  ${this.props.volunteerSelected.firstName} ${this.props.volunteerSelected.lastName}`}*/
