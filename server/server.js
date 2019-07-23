@@ -5,6 +5,7 @@ const cors = require("cors");
 // The API Routes for the Volunteers Screeen
 const volunteers = require('./routes/api/Volunteers/GetAllVolunteers');
 const searchVolunteers = require('./routes/api/Volunteers/SearchGetVolunteers');
+const patchVolunteer = require('./routes/api/Volunteers/PatchVolunteer');
 
 const app = express();
 
@@ -25,8 +26,17 @@ mongoose
 
 
 
+    //
+  // patchVolunteer.patch('/api/volunteers', patchVolunteer);
+  // volunteers.get('/api/volunteers', volunteers);
+
+
+
 //Use Routes
+// app.use(volunteers, patchVolunteer)
+app.use("/api/volunteers", patchVolunteer);
 app.use("/api/volunteers", volunteers);
+
 app.use("/api/volunteers/search", searchVolunteers);
 
 const port = process.env.PORT || 5000;

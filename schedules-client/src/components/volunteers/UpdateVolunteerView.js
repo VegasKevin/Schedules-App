@@ -24,7 +24,7 @@ class UpdateVolunteerView extends React.Component {
                 content={
                     <div /*className='ui celled table'*/ style={{ display:'flex',flexDirection:'row', justifyContent:'space-around', alignItems:"stretch"}}>
                         <div style={{ width:'60%'}}>
-                            <CreateVolunteerModalContent
+                            <UpdateVolunteerModalContent
                                 onSubmit={this.onSubmit}
                                 onDismiss={() => history.push('/volunteers')}
                             />
@@ -34,6 +34,7 @@ class UpdateVolunteerView extends React.Component {
                                 key={this.props.volunteerSelected._id}
                                 firstName={this.props.volunteerSelected.firstName}
                                 lastName={this.props.volunteerSelected.lastName}  
+                                backGroundCheck={this.props.volunteerSelected.backGroundCheck}
                                 emailAddress={this.props.volunteerSelected.emailAddress}
                                 phoneNumber={this.props.volunteerSelected.phoneNumber}
                                 ministries={this.props.volunteerSelected.ministries}

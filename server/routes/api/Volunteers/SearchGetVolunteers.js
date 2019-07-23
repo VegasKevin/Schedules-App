@@ -19,19 +19,19 @@ router.post("/", oneOf(
         console.log("req.body Stringify: " + JSON.stringify(req.body));
     if(requestHasErrors(req)){
         if(req.body.firstName && req.body.lastName){
-            console.log("both~~~~");
+       //     console.log("both~~~~");
             Volunteers.find( { 'firstName' : req.body.firstName, 'lastName' : req.body.lastName})
             .sort({ lastName : 1 })
             .then(volunteers => res.json(volunteers))
             .catch(error => res.json(error));
         }else if(req.body.firstName && !req.body.lastName){
-            console.log("first~~~~");
+        //    console.log("first~~~~");
             Volunteers.find({ 'firstName' : req.body.firstName })
             .sort ({ lastName: 1 })
             .then(volunteers => res.json(volunteers))
             .catch(error => res.json(error));
         }else if(!req.body.firstName && req.body.lastName){
-            console.log("last~~~~");
+          //  console.log("last~~~~");
             Volunteers.find({ 'lastName' : req.body.lastName })
             .sort ({ lastName: 1 })
             .then(volunteers => res.json(volunteers))

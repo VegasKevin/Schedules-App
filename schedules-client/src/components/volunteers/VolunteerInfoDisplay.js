@@ -7,7 +7,7 @@ class VolunteerInfoDisplay extends React.Component {
    
     renderBackGround () {
         return (
-            <div>Valid Background Check : {this.props.backGroundCheck.toString()}</div>
+        <div>Valid Background Check : {(this.props.backGroundCheck/*.toString()*/) ? 'Yes' : 'No'}</div>
         )
     }
     renderEmail () {
