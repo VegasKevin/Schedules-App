@@ -113,26 +113,6 @@ router.post("/", [
         }        
 });
 
-//@route    DELETE api/volunteers
-//@desc     Remove a Volunteer from the VOlunteers Database
-//@access   ADMIN
-router.delete("/", [
-        check("id").not().isEmpty()
-    ],
-    (req, res) => {
-        if (requestHasErrors(req)) {
-            //console.log(req.body);
-            //I chose to findById via the req.body rather than req.params
-            Volunteers.findById(req.body.id)
-            .then(volunteer => volunteer.remove()
-            .then(() => res.json({ "Volunteer Removed" : volunteer })))
-            .catch (error => res.status(404).json({ "status": error}))
-        }else {
-            return res.status(422).json({"error" : "id parameter format wasn't properly used"})
-        }
-        
-})
-
 // //@route    PATCH api/volunteers
 // //@desc     Edit an Existing Volunteer's Resources/Information
 // //@access   ADMIN

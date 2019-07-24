@@ -14,6 +14,7 @@ import ministry_Tabs_Bar from './schedules/ministry_Tabs_Bar';
 import MainVolunteersView from './volunteers/Main_Volunteers_View';
 import CreateVolunteerView from './volunteers/CreateVolunteerView';
 import UpdateVolunteerView from './volunteers/UpdateVolunteerView';
+import DeleteVolunteerView from './volunteers/DeleteVolunteerView';
 
 //const RouteArray = [{"key":"1", "path" : "/","component":main}, {"key":"2", "path":"/two","component":two}, {"key":"3", "path":"/three", "component":three}];
 
@@ -39,6 +40,7 @@ const App = () => {
                     <Route path="/volunteers" exact component={() => <MainVolunteersView/>}/>
                     <Route path="/volunteers/create" exact component={props => <CreateVolunteerView {...props}/>} />
                     <Route path="/volunteers/update" exact component={props => <UpdateVolunteerView {...props}/>} />
+                    <Route path="/volunteers/delete" exact component={props => <DeleteVolunteerView  {...props} />}/>
                 </Switch>
             </Router>            
         </div>

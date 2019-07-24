@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { reduxForm, Field } from 'redux-form';
-import history from '../../history';
 import { connect} from 'react-redux';
 
 class UpdateVolunteerModalContent extends React.Component {
@@ -27,14 +26,6 @@ class UpdateVolunteerModalContent extends React.Component {
         )
     }
 
-    /*renderHidden = ( {givenValue, input}) => {
-        return (
-            <input value={givenValue} type='hidden' {...input}/>
-        )
-    }*/
-
-    
-
     renderRadio = ( {input, options, meta, label} ) => {
         const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
         return (
@@ -52,17 +43,13 @@ class UpdateVolunteerModalContent extends React.Component {
     }
 
     onSubmit = (formValues,e) => {       
-        //e.preventDefault();
-        console.log("on submit in UpdateVOlModalContent.js");
         this.props.onSubmit(formValues);
         
     }
-
     
     render () {
         return (
             <form
-                //onSubmit={() => {/*console.log("wjjkd:" + JSON.stringify(this.props));*/ this.props.handleSubmit() /*history.push('/volunteers');*/}}
                 onSubmit={this.props.handleSubmit}
                 className='ui form error'
             >
@@ -123,16 +110,6 @@ class UpdateVolunteerModalContent extends React.Component {
                         label="List Preferences for serving times"
                         />
                 </div>
-                {/* <div>
-                    <Field
-                        name='_id'
-                        type="hidden"
-                        //value={this.props.volunteerSelected._id}
-                        givenValue={this.props.volunteerSelected._id}
-                        component={this.renderHidden}
-
-                        />
-                </div>*/}
                 <button type='submit' className='ui button primary' disabled={this.props.pristine || this.props.submitting}>Update Volunteer</button> 
                 <button type='button' className='ui button negative' disabled={this.props.submitting} onClick={this.props.onDismiss}>Cancel</button>
             </div>
@@ -140,17 +117,6 @@ class UpdateVolunteerModalContent extends React.Component {
         )
     }
 
-}
-
-//validate is a keyword for Redux-Form
-const validate = formValues => {
-    const errors = {};
-    console.log("validate in UpdateVOlModalContent.js")
-    // if(!formValues.firstName){        errors.firstName = "You must enter a first name";   }
-    // if(!formValues.lastName){         errors.lastName = "You must enter a last name";  }
-    // if(!formValues.emailAddress){     errors.emailAddress = "You must enter an E-mail Address";  }
-    // if(!formValues.backGroundCheck){  errors.backGroundCheck = "You must indicate that status of a current background check";  }
-    // return errors;
 }
 
 const mapStateToProps = ( state, props) =>{
@@ -171,15 +137,4 @@ UpdateVolunteerModalContent = connect (
 )(UpdateVolunteerModalContent);
 
 export default UpdateVolunteerModalContent;
-/*
-const wrappedConnect = connect(
-    mapStateToProps
-)(UpdateVolunteerModalContent);
 
-export default 
-     reduxForm({
-    form : 'updateVolunteerForm',
-    enableReinitialize: true,
-    validate
-})(wrappedConnect)
-*/

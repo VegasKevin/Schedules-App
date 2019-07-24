@@ -6,6 +6,7 @@ const cors = require("cors");
 const volunteers = require('./routes/api/Volunteers/GetAllVolunteers');
 const searchVolunteers = require('./routes/api/Volunteers/SearchGetVolunteers');
 const patchVolunteer = require('./routes/api/Volunteers/PatchVolunteer');
+const deleteVolunteer = require('./routes/api/Volunteers/DeleteVolunteer');
 
 const app = express();
 
@@ -36,6 +37,7 @@ mongoose
 // app.use(volunteers, patchVolunteer)
 app.use("/api/volunteers", volunteers);
 app.use("/api/volunteers", patchVolunteer);
+app.use("/api/volunteers", deleteVolunteer);
 
 app.use("/api/volunteers/search", searchVolunteers);
 
