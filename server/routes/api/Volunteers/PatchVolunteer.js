@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { body, check, validationResult, oneOf } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 
 //Volunteers Model (Schema)
 const Volunteers = require('../../../../models/Volunteers');
@@ -19,7 +19,6 @@ router.patch("/", [
 ],
 (req, res) => {
     if(requestHasErrors(req)){
-        console.log("server req.body: " + JSON.stringify(req.body));
         //This will require that each PATCH Request sends the whole object's data, including unchanged data
         Volunteers.findById(req.body._id)
         .then(volunteer => 

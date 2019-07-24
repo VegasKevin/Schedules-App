@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 
 import history from '../../history';
 import Modal from './Modal';
-import UpdateVolunteerModalContent from './UpdateVolunteerModalContent';
 
-import { updateVolunteer } from '../../actions';
-import CreateVolunteerModalContent from './CreateVolunteerModalContent';
+import UpdateVolunteerModalContent from './UpdateVolunteerModalContent';
 import VolunteerInfoDisplay from './VolunteerInfoDisplay';
+import { updateVolunteer } from '../../actions';
 
 class UpdateVolunteerView extends React.Component {
 
-    onSubmit = (formValues, e) => {
+    onSubmit = (formValues) => {
         //e.preventDefault();
         this.props.updateVolunteer(formValues);
         console.log('did on submit in UpdateVolunteerVIew.js');
@@ -19,7 +18,7 @@ class UpdateVolunteerView extends React.Component {
 
     render () {
         //console.log('update view: ' + JSON.stringify(this.props.volunteerSelected));
-        console.log("Phone#: " + this.props.volunteerSelected.phoneNumber)
+        //console.log("Phone#: " + this.props.volunteerSelected.phoneNumber)
         return (
             <Modal 
                 title="UpdateVolunteer"/*{`Update Volunteer:  ${this.props.volunteerSelected.firstName} ${this.props.volunteerSelected.lastName}`}*/
@@ -44,11 +43,6 @@ class UpdateVolunteerView extends React.Component {
                             />
                         </div>
                     </div>
-                //     <UpdateVolunteerModalContent
-                //         onSubmit={this.onSubmit}
-                //         volunteerselected= {this.props.volunteerSelected}
-                //         onDismiss={() => history.push('/volunteers')}
-                // />
             }
                 onDismiss={() => history.push("/volunteers")}
                 //volunteerselected= {this.props.volunteerSelected}
