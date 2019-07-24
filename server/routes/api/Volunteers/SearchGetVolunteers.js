@@ -18,21 +18,24 @@ router.post("/", oneOf(
     (req, res) =>{
         //console.log("req.body Stringify: " + JSON.stringify(req.body));
     if(requestHasErrors(req)){
+        Volunteers.createIndexes([{ "firstName" : "text"}, {"lastName" : "text"}]);
         if(req.body.firstName && req.body.lastName){
+            
        //     console.log("both~~~~");
-            Volunteers.find( { 'firstName' : req.body.firstName, 'lastName' : req.body.lastName})
+            //Volunteers.find( { 'firstName' : req.body.firstName, 'lastName' : req.body.lastName})
+           Volunteers.find({ $text: ({$search : req.body.firstName} ,{$search : req.body.lastName})})
             .sort({ lastName : 1 })
             .then(volunteers => res.json(volunteers))
             .catch(error => res.json(error));
         }else if(req.body.firstName && !req.body.lastName){
-        //    console.log("first~~~~");
-            Volunteers.find({ 'firstName' : req.body.firstName })
+            //Volunteers.find({ 'firstName' : req.body.firstName })
+            Volunteers.find({ $text: {$search : req.body.firstName}})
             .sort ({ lastName: 1 })
             .then(volunteers => res.json(volunteers))
             .catch(error => res.json(error));
         }else if(!req.body.firstName && req.body.lastName){
-          //  console.log("last~~~~");
-            Volunteers.find({ 'lastName' : req.body.lastName })
+            //Volunteers.find({ 'lastName' : req.body.lastName })
+            Volunteers.find({ $text: {$search : req.body.lastName}})
             .sort ({ lastName: 1 })
             .then(volunteers => res.json(volunteers))
             .catch(error => res.json(error));
