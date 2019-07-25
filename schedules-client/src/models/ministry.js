@@ -7,7 +7,7 @@ import React from 'react';
 //const mongoose = require("mongoose");
 //const Schema = mongoose.Schema;
 
-class ministry extends React.Component{
+class Ministry extends React.Component{
     constructor(ministryName, rolesArray) {
         super();
         this.ministryName = ministryName;
@@ -15,7 +15,7 @@ class ministry extends React.Component{
     }
 }
 
-export default ministry;
+export default Ministry;
 
 // export const MinistrySchema = new Schema ({
 //     roles_First : {

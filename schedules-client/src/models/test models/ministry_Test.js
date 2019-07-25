@@ -1,7 +1,7 @@
 //import React from 'react';
 
 import {roleTest} from './roles_Test';
-import ministry from '../ministry';
+import ministry from '../Ministry';
 
 export const ministry_Test = new ministry(
 

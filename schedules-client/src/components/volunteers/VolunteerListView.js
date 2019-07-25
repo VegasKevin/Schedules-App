@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { List } from 'semantic-ui-react';
 
-import { getAllVolunteers, selectVolunteer } from '../../actions';
+import { getAllVolunteers, selectVolunteer } from '../../actions/VolunteerActions';
 import  VolunteerInfoDisplay  from './VolunteerInfoDisplay';
 
 

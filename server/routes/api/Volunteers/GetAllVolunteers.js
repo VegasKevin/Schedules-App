@@ -102,10 +102,7 @@ router.post("/", [
             .then(volunteers => {
                 res.json(volunteers)//,
             //    console.log("volunteer._id:" + volunteers._id)
-            }
-                )
-            
-            
+            })           
             .catch(error => { console.log(error);
             });
         } else {

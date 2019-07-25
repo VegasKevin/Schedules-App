@@ -4,10 +4,10 @@ import React from 'react';
 
 class RolesSchema extends React.Component{
 
-    constructor(roleName, backgroundCheckRequired) {
+    constructor(roleName, backGroundCheckRequired) {
         super();
         this.roleName = roleName;
-        this.backgroundCheckRequired = backgroundCheckRequired;
+        this.backGroundCheckRequired = backGroundCheckRequired;
     }
 }
 

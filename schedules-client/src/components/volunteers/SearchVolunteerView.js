@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 
-import { getOneVolunteer } from '../../actions';
+import { getOneVolunteer } from '../../actions/VolunteerActions';
 
 
 class SearchVolunteerView extends React.Component {
