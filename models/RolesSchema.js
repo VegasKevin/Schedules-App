@@ -6,10 +6,10 @@ const RolesSchema = new Schema({
         type: String,
         required : true
     },
-    backgroundCheckRequired : {
+    backGroundCheckRequired : {
         type : Boolean,
         required : true
     }
 });
 
-module.exports = Role = mongoose.model("role", RolesSchema);    
+module.exports = Roles = mongoose.model("role", RolesSchema);    

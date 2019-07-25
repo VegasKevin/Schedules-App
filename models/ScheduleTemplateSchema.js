@@ -1,12 +1,12 @@
-import Ministry from './Ministry';
+const MinistrySchema = require("./MinistrySchema").schema;
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ScheduleTemplateSchema = new Schema({
     MinistryArray: {
-        type : [Ministry],
-        required : true
+        type : [MinistrySchema],
+        required : Boolean
     }
 })
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const ScheduleTemplate = require("/../../../../models/ScheduleTemplateSchema");
+const ScheduleTemplateSchema = require("../../../../models/ScheduleTemplateSchema");
 
 /**
  * @description POST endpoint for creating a new Schedule Template
@@ -10,7 +10,8 @@ const ScheduleTemplate = require("/../../../../models/ScheduleTemplateSchema");
  */
 router.post("/", 
     (req, res) => {
-        const newScheduleTemplate = new ScheduleTemplate({
+        console.log("template post: " + JSON.stringify(req.body));
+        const newScheduleTemplate = new ScheduleTemplateSchema({
             //MinistryArray is an Array of Ministry objects
             MinistryArray : req.body.ministryArray
         });
@@ -21,7 +22,7 @@ router.post("/",
                 res.status(201).json({ "newTemplate" : newTemplate})
             })
             .catch(error => {
-                console.log("Error in createScheduleTemplate.js");
+                console.log("Error in createScheduleTemplate.js:  " + error);
                 res.status(500).json({ "templateCreationError" : error})
             });
     }

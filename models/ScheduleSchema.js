@@ -1,4 +1,4 @@
-import Ministry from './Ministry';
+import Ministry from './MinistrySchema';
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
