@@ -6,7 +6,11 @@ const Schema = mongoose.Schema;
 const ScheduleTemplateSchema = new Schema({
     MinistryArray: {
         type : [MinistrySchema],
-        required : Boolean
+        required : true
+    },
+    numberOfServices:{
+        type: Number,
+        required: true
     }
 })
 

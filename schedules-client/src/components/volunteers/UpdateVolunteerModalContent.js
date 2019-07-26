@@ -42,7 +42,7 @@ class UpdateVolunteerModalContent extends React.Component {
         );
     }
 
-    onSubmit = (formValues,e) => {       
+    onSubmit = (formValues) => {       
         this.props.onSubmit(formValues);
         
     }

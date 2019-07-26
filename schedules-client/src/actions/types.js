@@ -14,3 +14,10 @@ export const GET_ALL_SCHEDULES = "GET_ALL_SCHEDULES";
 export const GET_ONE_SCHEDULE = "GET_ONE_SCHEDULE";
 export const SCHEDULE_SELECTED = "SCHEDULE_SELECTED";
 export const UPDATE_SCHEDULE = "UPDATE_SCHEDULE";
+
+//SchedulesTemplate Reducer types
+export const ADD_MINISTRY = "ADD_MINISTRY";
+export const ADD_ROLE = "ADD_ROLE";
+export const CHANGE_NUMBEROFSERVICES = "CHANGE_NUMBEROFSERVICES";
+// export const ADD_MINISTRY = "ADD_MINISTRY";
+// export const ADD_MINISTRY = "ADD_MINISTRY";
