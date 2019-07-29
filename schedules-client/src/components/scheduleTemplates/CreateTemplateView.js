@@ -5,6 +5,7 @@ import { Button } from 'semantic-ui-react';
 import  MinistryInformationField  from './MinistryInformationField';
 
 import { addMinistry, addRole, changeNumberOfServices } from '../../actions/ScheduleTemplateActions';
+import CreateTemplateForm from './CreateTemplateForm';
 
 class CreateTemplateView extends React.Component{
 
@@ -35,7 +36,7 @@ class CreateTemplateView extends React.Component{
     }
 
     onSubmitMinistryString = (event) => {
-        const splitMinistryArray = this.state.ministryString.split(" ");
+        const splitMinistryArray = this.state.ministryString.trim().split(/\s+/);
         // console.log("Ministry event: " + this.state.ministryString)
         // console.log("split array: " + splitMinistryArray);
         this.props.addMinistry(splitMinistryArray);
@@ -74,10 +75,16 @@ render () {
                 </form>
 
                 Number of Services: {this.props.numberOfServices}
-                <div>
+                {/* <div>
                     <MinistryInformationField
                         ministryArray={this.props.ministryArray}/> 
-                </div>               
+                </div>                */}
+                <div>
+                    <CreateTemplateForm
+                        ministryArray={this.props.ministryArray}
+                        addRole={this.props.addRole}
+                        />
+                </div>
                 
             </div>
         </div>
