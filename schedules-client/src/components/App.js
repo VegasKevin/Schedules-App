@@ -48,6 +48,7 @@ const App = () => {
                     <Route path="/volunteers/update" exact component={props => <UpdateVolunteerView {...props}/>} />
                     <Route path="/volunteers/delete" exact component={props => <DeleteVolunteerView  {...props} />}/>
                     <Route path="/settings/createtemplate" exact component={() =>  <CreateTemplateView  /> }/>
+                    {/* <Route path="/settings/createtemplate/confirm" exact component={() => <} /> */}
                 </Switch>
             </Router>            
         </div>

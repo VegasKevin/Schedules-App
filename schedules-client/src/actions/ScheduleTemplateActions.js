@@ -3,7 +3,8 @@
 import {
     ADD_MINISTRY,
     ADD_ROLE,
-    CHANGE_NUMBEROFSERVICES
+    CHANGE_NUMBEROFSERVICES,
+    ADD_BACKGROUNDCHECK
 } from './types';
 
 export function addMinistry (newMinistry) {  //Do I want newMinistry to be a Ministry Object? a name? or something else?
@@ -15,6 +16,12 @@ export function addMinistry (newMinistry) {  //Do I want newMinistry to be a Min
 export function addRole (newRole) {
     return (dispatch) => {
         dispatch ({ type: ADD_ROLE, payload : newRole });
+    }
+}
+
+export function addBackGroundCheck(newBGCheck) {
+    return (dispatch) => {        
+        dispatch({  type: ADD_BACKGROUNDCHECK, payload: newBGCheck});
     }
 }
 

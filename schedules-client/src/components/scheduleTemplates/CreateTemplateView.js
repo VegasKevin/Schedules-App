@@ -1,11 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
+import { Button, Modal, Header } from 'semantic-ui-react';
 
 import  MinistryInformationField  from './MinistryInformationField';
 
-import { addMinistry, addRole, changeNumberOfServices } from '../../actions/ScheduleTemplateActions';
+import { addMinistry, addRole, changeNumberOfServices, addBackGroundCheck } from '../../actions/ScheduleTemplateActions';
 import CreateTemplateForm from './CreateTemplateForm';
+import history from '../../history';
+import CreateVolunteerModalContent from '../volunteers/CreateVolunteerModalContent';
+import ConfirmTemplateContent from './ConfirmTemplateContent';
 
 class CreateTemplateView extends React.Component{
 
@@ -14,13 +17,16 @@ class CreateTemplateView extends React.Component{
 
         this.state = {
             numberOfServices : 0,
-            ministryString : ""
+            ministryString : "",
+            showModal : false
         }
 
         this.handleNumberOfServicesChange = this.handleNumberOfServicesChange.bind(this);
         this.onChangeNumberOfServices = this.onChangeNumberOfServices.bind(this);
         this.onSubmitMinistryString = this.onSubmitMinistryString.bind(this);
         this.handleMinistryStringChange = this.handleMinistryStringChange.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.dismissModal = this.dismissModal.bind(this);
     }
     
 
@@ -45,6 +51,59 @@ class CreateTemplateView extends React.Component{
 
     handleMinistryStringChange (event) {
         this.setState ({ ministryString : event.target.value});
+    }
+
+    dismissModal () {
+        this.setState({ showModal : false});
+    }
+
+    showModal () {
+        this.setState({ showModal : true });
+    }
+
+    //This will be a Modal displaying the Summary of the ScheduleTemplate being created with a Confirm & Cancel/Edit button
+    renderTemplateSummaryModal () {
+        // console.log("state showModal: " + this.state.showModal);
+        //  if(this.state.showModal === false){
+        //      return (null);
+        //  }
+         return (
+             <Modal trigger={<button className='ui button primary' >Submit Schedule Template</button>}>
+                 <Modal.Header>New Schedule Template Summary</Modal.Header>
+                    <Modal.Content image scrolling>
+                        <Modal.Description>
+                            <Header>
+                                Please Check Schedule Template for Accuracy and Confirm
+                            </Header>
+                        </Modal.Description>
+                        <ConfirmTemplateContent
+                            ministryArray={this.props.ministryArray}
+                            />
+                       
+                       
+
+                    </Modal.Content>
+             </Modal>
+         )
+        // return (
+        //      <Modal
+        //         //show={this.state.showModal}
+        //         title="TemplateSummaryModal"
+        //         content={<div>
+        //             "dskjsdjlsd"
+        //             <CreateVolunteerModalContent/>
+        //         // <div>
+        //         //     <div>
+        //         //         TemplateSummaryModal
+        //         //     </div>
+        //         //     <div>
+        //         //         <button onClick={this.dismissModal/*.props.onDismiss*/}>Dismiss</button>
+        //         //     </div>
+        //         // </div>
+        //             }
+        //         onDismiss={this.dismissModal/*history.push('/settings/createtemplate')*/}
+        //     />
+        // )
     }
 
 
@@ -83,9 +142,16 @@ render () {
                     <CreateTemplateForm
                         ministryArray={this.props.ministryArray}
                         addRole={this.props.addRole}
+                        addBackGroundCheck={this.props.addBackGroundCheck}
+                        onSubmit={this.props.addBackGroundCheck}
                         />
-                </div>
-                
+                </div>  
+                {/* <div>
+                    <button onClick={this.showModal}>Click to show</button>  
+                </div>            */}
+                <div /*visible={this.state.showModal}*/>
+                    {this.renderTemplateSummaryModal()}
+                </div>   
             </div>
         </div>
     )
@@ -99,4 +165,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect (mapStateToProps, { addMinistry, addRole, changeNumberOfServices })(CreateTemplateView);
+export default connect (mapStateToProps, { addMinistry, addRole, changeNumberOfServices, addBackGroundCheck })(CreateTemplateView);
