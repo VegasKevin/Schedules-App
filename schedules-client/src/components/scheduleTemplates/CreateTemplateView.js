@@ -72,13 +72,18 @@ class CreateTemplateView extends React.Component{
                  <Modal.Header>New Schedule Template Summary</Modal.Header>
                     <Modal.Content image scrolling>
                         <Modal.Description>
-                            <Header>
-                                Please Check Schedule Template for Accuracy and Confirm
-                            </Header>
+                            <div>
+                                <Header>
+                                    Please Check Schedule Template for Accuracy and Confirm
+                                </Header>
+                            </div>
                         </Modal.Description>
+                        <div>
                         <ConfirmTemplateContent
                             ministryArray={this.props.ministryArray}
+                            backGroundCheckArray={this.props.backGroundCheckArray}
                             />
+                        </div>
                        
                        
 
@@ -161,7 +166,8 @@ render () {
 const mapStateToProps = (state) => {
     return {
         ministryArray : state.scheduleTemplate.ministryArray,
-        numberOfServices : state.scheduleTemplate.numberOfServices
+        numberOfServices : state.scheduleTemplate.numberOfServices,
+        backGroundCheckArray : state.scheduleTemplate.backGroundCheckArray
     }
 }
 

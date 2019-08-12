@@ -17,6 +17,7 @@ import CreateVolunteerView from './volunteers/CreateVolunteerView';
 import UpdateVolunteerView from './volunteers/UpdateVolunteerView';
 import DeleteVolunteerView from './volunteers/DeleteVolunteerView';
 import CreateTemplateView from './scheduleTemplates/CreateTemplateView';
+import AddMinistryView from './scheduleTemplates/AddMinistryView';
 
 //const RouteArray = [{"key":"1", "path" : "/","component":main}, {"key":"2", "path":"/two","component":two}, {"key":"3", "path":"/three", "component":three}];
 
@@ -48,6 +49,7 @@ const App = () => {
                     <Route path="/volunteers/update" exact component={props => <UpdateVolunteerView {...props}/>} />
                     <Route path="/volunteers/delete" exact component={props => <DeleteVolunteerView  {...props} />}/>
                     <Route path="/settings/createtemplate" exact component={() =>  <CreateTemplateView  /> }/>
+                    <Route path="/settings/createtemplate/addministry" exact component={() => <AddMinistryView /> }/>
                     {/* <Route path="/settings/createtemplate/confirm" exact component={() => <} /> */}
                 </Switch>
             </Router>            
