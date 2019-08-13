@@ -1,7 +1,13 @@
 import React from 'react';
 import {Form, Radio, Button, Message,  Item } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+
 import RoleListView from './RoleListView';
 import ConfirmMinistryModal from './ConfirmMinistryModal';
+
+import {addRole, deleteRole, addMinistry, changeCreateMinistryTitle} from '../../actions/ScheduleTemplateActions';
+
+
 
 class AddMinistryView extends React.Component{
     
@@ -17,8 +23,8 @@ class AddMinistryView extends React.Component{
         this.ministryTitleOnChange=this.ministryTitleOnChange.bind(this);
         this.roleNameOnChange=this.roleNameOnChange.bind(this);
         this.backGroundRadioOnChange=this.backGroundRadioOnChange.bind(this);
+        // this.roleOnDelete=this.roleOnDelete.bind(this);
     }
-    
     ministryTitleOnChange (event) {
         this.setState ({ ministryTitle: event.target.value})
     }
@@ -31,13 +37,13 @@ class AddMinistryView extends React.Component{
         //This function determines if the Role Name is empty, it will submit if it has a valid name
         let alreadyExists = this.state.rolesArray.some(role => role.roleName === this.state.roleName);
 
-        //console.log("al exists: " + alreadyExists + "    target: " + this.state.roleName);
         if((!(this.state.roleName === "")) && (!alreadyExists)) {
             this.setState({formError : false});
             let radioValue = (this.state.backGroundRadioValue === "true") ? true : false;
-            this.setState( (prevState) => ({
-            rolesArray: [...prevState.rolesArray, {roleName: this.state.roleName, backGroundCheckRequired: radioValue/*this.state.backGroundRadioValue*/}],
-            }))
+            /*this.setState( (prevState) => ({
+            rolesArray: [...prevState.rolesArray, {roleName: this.state.roleName, backGroundCheckRequired: radioValue}],
+            }))*/
+            this.props./*addRole*/onAddRole({ roleName: this.state.roleName, backGroundCheckRequired : radioValue })
             this.setState({ roleName : "", backGroundRadioValue: null});  //Clears the Input field upon submission
         } else if(alreadyExists){
             this.setState({formError : true});
@@ -49,9 +55,17 @@ class AddMinistryView extends React.Component{
         this.setState({ backGroundRadioValue : value });
     }
 
-    onConfirmMinistry () {
+    submitConfirmMinistryButton () {
+        // console.log("creatingministryTitle: " + this.props.scheduleTemplate.creatingMinistryTitle + "  " + JSON.stringify(this.props.scheduleTemplate.rolesArray));//.creatingMinistryTitle);
+        // let newMinistry = { ministryName : this.props.creatingMinistryTitle, rolesArray : this.props.rolesArray}
+        this.props.onConfirmMinistry({ministryName : this.props.creatingMinistryTitle, rolesArray : this.props.rolesArray});
 
     }
+
+    // roleOnDelete (roleName) {
+    //     let newRolesArray = this.state.rolesArray.filter(role => role.roleName === roleName);
+    //     this.setState({ rolesArray : newRolesArray});
+    // }
 
     render () {
         return (
@@ -99,7 +113,7 @@ class AddMinistryView extends React.Component{
                         </div>
                         <Form.Button onClick={this.onSubmitAddRole} color="blue" disabled={this.state.roleName === "" || this.state.backGroundRadioValue === null}>Add Role</Form.Button>
                         <Item.Group divided>
-                            <RoleListView rolesArray={this.state.rolesArray}/>
+                            <RoleListView rolesArray={this.props.rolesArray} onRoleDelete={() => this.props.onRoleDelete()}/>
                         </Item.Group>
 
                         {/* <Form.Button 
@@ -109,16 +123,32 @@ class AddMinistryView extends React.Component{
                         >Confirm Ministry</Form.Button>
                          */}
                          <ConfirmMinistryModal
-                            onConfirmMinistry={this.onConfirmMinistry}
-                            rolesArray={this.state.rolesArray}
-                            ministryTitle={this.state.ministryTitle}/>
-                   
+                            submitConfirmMinistryButton={this.submitConfirmMinistryButton}
+                            rolesArray={this.props.rolesArray}
+                            ministryTitle={this.state.ministryTitle}
+                            triggerButton={<Button onClick={this.props.onChangeMinistryName.bind(null, this.state.ministryTitle)} disabled={this.state.ministryTitle === "" || this.props.rolesArray.length < 1}
+                                            color="blue">Submit Schedule Template</Button>}/>
                    </Form>
                 </div>
-
             </div>
         )
     }
 }
 
-export default AddMinistryView;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onRoleDelete: (roleName) => dispatch(deleteRole(roleName)),
+        onAddRole: (role) => dispatch(addRole(role)),
+        onConfirmMinistry: (ministry) => dispatch(addMinistry(ministry)),
+        onChangeMinistryName: (ministryName) => dispatch(changeCreateMinistryTitle(ministryName))
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        rolesArray : state.scheduleTemplate.rolesArray,
+        creatingMinistryTitle : state.scheduleTemplate.creatingMinistryTitle
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps/*{ addRole, deleteRole }*/)(AddMinistryView);

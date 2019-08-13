@@ -4,10 +4,13 @@ import {
     ADD_MINISTRY,
     ADD_ROLE,
     CHANGE_NUMBEROFSERVICES,
-    ADD_BACKGROUNDCHECK
+    ADD_BACKGROUNDCHECK,
+    DELETE_ROLE,
+    CHANGE_CREATEMINISTRYTITLE
 } from './types';
 
 export function addMinistry (newMinistry) {  //Do I want newMinistry to be a Ministry Object? a name? or something else?
+    console.log("new ministry: "+ JSON.stringify(newMinistry))
     return (dispatch) => {
         dispatch( { type: ADD_MINISTRY, payload: newMinistry });
     }
@@ -16,6 +19,12 @@ export function addMinistry (newMinistry) {  //Do I want newMinistry to be a Min
 export function addRole (newRole) {
     return (dispatch) => {
         dispatch ({ type: ADD_ROLE, payload : newRole });
+    }
+}
+
+export function deleteRole (roleName) {
+    return (dispatch) => {
+        dispatch ({ type: DELETE_ROLE, payload : roleName });
     }
 }
 
@@ -28,5 +37,11 @@ export function addBackGroundCheck(newBGCheck) {
 export function changeNumberOfServices (newNumServices) {
     return (dispatch) => {
         dispatch ({ type: CHANGE_NUMBEROFSERVICES, payload : newNumServices});
+    }
+}
+
+export function changeCreateMinistryTitle (newMinistryTitle) {
+    return (dispatch) => {
+        dispatch ({ type: CHANGE_CREATEMINISTRYTITLE, payload : newMinistryTitle });
     }
 }

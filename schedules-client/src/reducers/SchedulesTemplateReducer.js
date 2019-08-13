@@ -1,10 +1,14 @@
 import _ from 'lodash';
+import * as util from 'util';
+import { inspect } from 'util';
  
 import {
     ADD_MINISTRY,
     ADD_ROLE,
     CHANGE_NUMBEROFSERVICES,
-    ADD_BACKGROUNDCHECK
+    ADD_BACKGROUNDCHECK,
+    DELETE_ROLE,
+    CHANGE_CREATEMINISTRYTITLE
 } from '../actions/types';
 
 let INITIAL_STATE = {
@@ -16,7 +20,9 @@ let INITIAL_STATE = {
             //  }
         ],
         backGroundCheckArray : [], 
-    numberOfServices : 0
+        rolesArray : [],
+    numberOfServices : 0,
+    creatingMinistryTitle : ""
 }
 
 export default (state = INITIAL_STATE, action ) => {
@@ -27,22 +33,37 @@ export default (state = INITIAL_STATE, action ) => {
          * This does not update the existing array or add to it, it replaces it
          *  */
         case ADD_MINISTRY: {
+            console.log("reducer add Ministry payload: " + (action.payload.value));
+            console.log("reducer add Ministry payload: " + JSON.stringify(action.payload.rolesArray));
+            return {
+                ...state,
+                ministryArray : [...state.ministryArray, action.payload]
+            }
+            /*  This was the initial add ministry Reducer for when I created Ministries from a Single Input box with space separated name values
             let mapOfNewMinistries = action.payload.map(newMinistry => {
                 return ({ "ministryName" : newMinistry, rolesArray : [] });                
             })
             return {...state, 
-            ministryArray : /*[...state.ministryArray, */mapOfNewMinistries/*action.payload] */};
+            ministryArray : mapOfNewMinistries};*/
         }   
 
-        case ADD_ROLE : 
+        case ADD_ROLE : {
+            return { ...state,
+                    rolesArray: [...state.rolesArray, action.payload]
+            }
+        }
+            /*  This was the previous implementation of adding roles based of a single input boxes 
             console.log("payload: " + action.payload.ministryName)
             return {      //here we spread the current entire state. The we determine ministryArray to change rolesArray if the name matches what was passin the function call.  If it doesn't equal the name, it returns the 'minitry' object without change.  
             //if it is the same, it spreads the ministry object, changes the rolesArray to what was passed in the function call and then returns the updated object.
                        ...state,
                         ministryArray: state.ministryArray.map(ministry =>                     
-                         (ministry.ministryName === action.payload.ministryName) ? {...ministry, rolesArray : action.payload.mapOfRoles/*splitRolesArray*/} : ministry                         
-                    )
-            }
+                         (ministry.ministryName === action.payload.ministryName) ? {...ministry, rolesArray : action.payload.mapOfRoles} : ministry                         
+                        )
+            }*/
+        case DELETE_ROLE : {
+            return { ...state, rolesArray : state.rolesArray.filter(role => role.roleName !==/*===*/ action.payload)}
+        }
         case ADD_BACKGROUNDCHECK : {
             if (!state.backGroundCheckArray.some(roleObject => (roleObject.roleName === action.payload.roleName && roleObject.parentMinistry === action.payload.parentMinistry ) )){//(state.backGroundCheckArray.length === 0){
                 return {
@@ -167,6 +188,10 @@ export default (state = INITIAL_STATE, action ) => {
         }        
         case CHANGE_NUMBEROFSERVICES : {
             return {...state, numberOfServices : action.payload };
+        }
+
+        case CHANGE_CREATEMINISTRYTITLE:{
+            return {...state, creatingMinistryTitle : action.payload };
         }
         default : {
             return state;
