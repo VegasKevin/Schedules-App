@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 
 import RoleListView from './RoleListView';
 import ConfirmMinistryModal from './ConfirmMinistryModal';
+import history from "../../history";
 
 import {addRole, deleteRole, addMinistry, changeCreateMinistryTitle} from '../../actions/ScheduleTemplateActions';
+
 
 
 
@@ -23,10 +25,12 @@ class AddMinistryView extends React.Component{
         this.ministryTitleOnChange=this.ministryTitleOnChange.bind(this);
         this.roleNameOnChange=this.roleNameOnChange.bind(this);
         this.backGroundRadioOnChange=this.backGroundRadioOnChange.bind(this);
+        this.submitConfirmMinistryButton = this.submitConfirmMinistryButton.bind(this);
         // this.roleOnDelete=this.roleOnDelete.bind(this);
     }
     ministryTitleOnChange (event) {
         this.setState ({ ministryTitle: event.target.value})
+        //this.props.onChangeMinistryName(this.state.ministryTitle);
     }
 
     roleNameOnChange (event) {
@@ -55,17 +59,10 @@ class AddMinistryView extends React.Component{
         this.setState({ backGroundRadioValue : value });
     }
 
-    submitConfirmMinistryButton () {
-        // console.log("creatingministryTitle: " + this.props.scheduleTemplate.creatingMinistryTitle + "  " + JSON.stringify(this.props.scheduleTemplate.rolesArray));//.creatingMinistryTitle);
-        // let newMinistry = { ministryName : this.props.creatingMinistryTitle, rolesArray : this.props.rolesArray}
-        this.props.onConfirmMinistry({ministryName : this.props.creatingMinistryTitle, rolesArray : this.props.rolesArray});
-
+    submitConfirmMinistryButton () {        
+         this.props.onConfirmMinistry({ministryName : this.props.creatingMinistryTitle, rolesArray : this.props.rolesArray});
+         //history.push("/settings/createtemplate/addministry");
     }
-
-    // roleOnDelete (roleName) {
-    //     let newRolesArray = this.state.rolesArray.filter(role => role.roleName === roleName);
-    //     this.setState({ rolesArray : newRolesArray});
-    // }
 
     render () {
         return (

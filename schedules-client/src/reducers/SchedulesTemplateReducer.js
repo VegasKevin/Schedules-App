@@ -33,12 +33,11 @@ export default (state = INITIAL_STATE, action ) => {
          * This does not update the existing array or add to it, it replaces it
          *  */
         case ADD_MINISTRY: {
-            console.log("reducer add Ministry payload: " + (action.payload.value));
-            console.log("reducer add Ministry payload: " + JSON.stringify(action.payload.rolesArray));
             return {
                 ...state,
                 ministryArray : [...state.ministryArray, action.payload]
             }
+            // history.push("/settings/createtemplate");
             /*  This was the initial add ministry Reducer for when I created Ministries from a Single Input box with space separated name values
             let mapOfNewMinistries = action.payload.map(newMinistry => {
                 return ({ "ministryName" : newMinistry, rolesArray : [] });                

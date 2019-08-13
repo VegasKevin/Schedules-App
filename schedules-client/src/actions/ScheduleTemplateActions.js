@@ -9,10 +9,12 @@ import {
     CHANGE_CREATEMINISTRYTITLE
 } from './types';
 
+import history from '../history';
+
 export function addMinistry (newMinistry) {  //Do I want newMinistry to be a Ministry Object? a name? or something else?
-    console.log("new ministry: "+ JSON.stringify(newMinistry))
-    return (dispatch) => {
-        dispatch( { type: ADD_MINISTRY, payload: newMinistry });
+    return dispatch => {
+        dispatch( { type: ADD_MINISTRY, payload: newMinistry })
+        // .then (history.push('/settings/createtemplate'))
     }
 }
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Header } from 'semantic-ui-react';
+import { Button, Modal, Header, Form, Input } from 'semantic-ui-react';
 
 import  MinistryInformationField  from './MinistryInformationField';
 
 import { addMinistry, addRole, changeNumberOfServices, addBackGroundCheck } from '../../actions/ScheduleTemplateActions';
 import CreateTemplateForm from './CreateTemplateForm';
-import history from '../../history';
-import CreateVolunteerModalContent from '../volunteers/CreateVolunteerModalContent';
+// import history from '../../history';
+// import CreateVolunteerModalContent from '../volunteers/CreateVolunteerModalContent';
 import ConfirmTemplateContent from './ConfirmTemplateContent';
 
 class CreateTemplateView extends React.Component{
@@ -18,21 +18,19 @@ class CreateTemplateView extends React.Component{
         this.state = {
             numberOfServices : 0,
             ministryString : "",
-            showModal : false
+            showModal : false,
+            scheduleTemplateName : "",
         }
 
         this.handleNumberOfServicesChange = this.handleNumberOfServicesChange.bind(this);
         this.onChangeNumberOfServices = this.onChangeNumberOfServices.bind(this);
         this.onSubmitMinistryString = this.onSubmitMinistryString.bind(this);
-        this.handleMinistryStringChange = this.handleMinistryStringChange.bind(this);
         this.showModal = this.showModal.bind(this);
         this.dismissModal = this.dismissModal.bind(this);
     }
     
 
     onChangeNumberOfServices = (event) => {
-        // console.log("~~ " + this.state.numberOfServices);
-        // console.log("target.value: " + event.target.value);
         this.props.changeNumberOfServices(this.state.numberOfServices);
         event.preventDefault();
     }
@@ -47,10 +45,6 @@ class CreateTemplateView extends React.Component{
         // console.log("split array: " + splitMinistryArray);
         this.props.addMinistry(splitMinistryArray);
         event.preventDefault();
-    }
-
-    handleMinistryStringChange (event) {
-        this.setState ({ ministryString : event.target.value});
     }
 
     dismissModal () {
@@ -90,31 +84,7 @@ class CreateTemplateView extends React.Component{
                     </Modal.Content>
              </Modal>
          )
-        // return (
-        //      <Modal
-        //         //show={this.state.showModal}
-        //         title="TemplateSummaryModal"
-        //         content={<div>
-        //             "dskjsdjlsd"
-        //             <CreateVolunteerModalContent/>
-        //         // <div>
-        //         //     <div>
-        //         //         TemplateSummaryModal
-        //         //     </div>
-        //         //     <div>
-        //         //         <button onClick={this.dismissModal/*.props.onDismiss*/}>Dismiss</button>
-        //         //     </div>
-        //         // </div>
-        //             }
-        //         onDismiss={this.dismissModal/*history.push('/settings/createtemplate')*/}
-        //     />
-        // )
     }
-
-
-
-
-
 
 render () {
     return (
@@ -126,19 +96,29 @@ render () {
                 2nd div
             </div>
             <div style={{flexDirection:"vertical" }}>
-                <form>
-                <div>
-                    <input type='text' value={this.state.numberOfServices} onChange={this.handleNumberOfServicesChange}></input>
-                    <Button onClick={this.onChangeNumberOfServices} >Change Service</Button>
-                </div>
-                <div>
-                    <input type="text" value={this.state.ministryString} onChange={this.handleMinistryStringChange}></input>
-                    <Button onClick={this.onSubmitMinistryString}>Submit Ministry Names</Button>
-                </div>
+                <Form>
+                    <Form.Input
+                        min="0"
+                        max="7"
+                        label="Enter the Number of Services for this Schedule Template"
+                        type="number"   
+                        value={this.state.numberOfServices}
+                        onChange={this.handleNumberOfServicesChange}                         
+                        />        
+                        <Button onClick={this.onChangeNumberOfServices} >Change Service</Button>
 
-                </form>
+                    <Form.Input
+                        type="text"
+                        max="50"
+                        label="Enter the Name of this Schedule Template"
+                        value={this.state.scheduleTemplateName}
+                        onChange={this.handleTemplateNameChange}
+                        />
+                    {/* <Button onClick={this.onSetTemplateName}>Submit Template Name</Button> */}
+                    
+                </Form>
 
-                Number of Services: {this.props.numberOfServices}
+                {/* Number of Services: {this.props.numberOfServices} */}
                 {/* <div>
                     <MinistryInformationField
                         ministryArray={this.props.ministryArray}/> 
