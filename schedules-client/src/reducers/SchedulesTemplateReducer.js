@@ -8,7 +8,8 @@ import {
     CHANGE_NUMBEROFSERVICES,
     ADD_BACKGROUNDCHECK,
     DELETE_ROLE,
-    CHANGE_CREATEMINISTRYTITLE
+    CHANGE_CREATEMINISTRYTITLE,
+    CLEAR_ROLESARRAY
 } from '../actions/types';
 
 let INITIAL_STATE = {
@@ -62,6 +63,10 @@ export default (state = INITIAL_STATE, action ) => {
             }*/
         case DELETE_ROLE : {
             return { ...state, rolesArray : state.rolesArray.filter(role => role.roleName !==/*===*/ action.payload)}
+        }
+
+        case CLEAR_ROLESARRAY: {
+            return { ...state, rolesArray : [] }
         }
         case ADD_BACKGROUNDCHECK : {
             if (!state.backGroundCheckArray.some(roleObject => (roleObject.roleName === action.payload.roleName && roleObject.parentMinistry === action.payload.parentMinistry ) )){//(state.backGroundCheckArray.length === 0){

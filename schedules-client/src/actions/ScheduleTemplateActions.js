@@ -6,7 +6,8 @@ import {
     CHANGE_NUMBEROFSERVICES,
     ADD_BACKGROUNDCHECK,
     DELETE_ROLE,
-    CHANGE_CREATEMINISTRYTITLE
+    CHANGE_CREATEMINISTRYTITLE,
+    CLEAR_ROLESARRAY
 } from './types';
 
 import history from '../history';
@@ -15,6 +16,7 @@ export function addMinistry (newMinistry) {  //Do I want newMinistry to be a Min
     return dispatch => {
         dispatch( { type: ADD_MINISTRY, payload: newMinistry })
         // .then (history.push('/settings/createtemplate'))
+        dispatch({ type: CLEAR_ROLESARRAY  })
     }
 }
 

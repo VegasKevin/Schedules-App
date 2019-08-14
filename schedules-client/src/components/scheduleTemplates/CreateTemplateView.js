@@ -6,9 +6,10 @@ import  MinistryInformationField  from './MinistryInformationField';
 
 import { addMinistry, addRole, changeNumberOfServices, addBackGroundCheck } from '../../actions/ScheduleTemplateActions';
 import CreateTemplateForm from './CreateTemplateForm';
-// import history from '../../history';
+ import history from '../../history';
 // import CreateVolunteerModalContent from '../volunteers/CreateVolunteerModalContent';
 import ConfirmTemplateContent from './ConfirmTemplateContent';
+import CurrentTemplateBuildView from './CurrentTemplateBuildView';
 
 class CreateTemplateView extends React.Component{
 
@@ -27,6 +28,7 @@ class CreateTemplateView extends React.Component{
         this.onSubmitMinistryString = this.onSubmitMinistryString.bind(this);
         this.showModal = this.showModal.bind(this);
         this.dismissModal = this.dismissModal.bind(this);
+        this.handleTemplateNameChange = this.handleTemplateNameChange.bind(this);
     }
     
 
@@ -37,6 +39,10 @@ class CreateTemplateView extends React.Component{
 
     handleNumberOfServicesChange (event) {
         this.setState( { numberOfServices : event.target.value });
+    }
+
+    handleTemplateNameChange (event) {
+        this.setState({ scheduleTemplateName : event.target.value });
     }
 
     onSubmitMinistryString = (event) => {
@@ -93,11 +99,15 @@ render () {
                 <h2>CreateTemplateView</h2>
             </div>
             <div>
-                2nd div
+                <CurrentTemplateBuildView
+                    ministryArray={this.props.ministryArray}
+                    numberOfServices={this.props.numberOfServices}
+                />
             </div>
             <div style={{flexDirection:"vertical" }}>
                 <Form>
                     <Form.Input
+                        required={true}
                         min="0"
                         max="7"
                         label="Enter the Number of Services for this Schedule Template"
@@ -108,6 +118,7 @@ render () {
                         <Button onClick={this.onChangeNumberOfServices} >Change Service</Button>
 
                     <Form.Input
+                        required={true}
                         type="text"
                         max="50"
                         label="Enter the Name of this Schedule Template"
@@ -117,24 +128,12 @@ render () {
                     {/* <Button onClick={this.onSetTemplateName}>Submit Template Name</Button> */}
                     
                 </Form>
-
-                {/* Number of Services: {this.props.numberOfServices} */}
-                {/* <div>
-                    <MinistryInformationField
-                        ministryArray={this.props.ministryArray}/> 
-                </div>                */}
-                <div>
-                    <CreateTemplateForm
-                        ministryArray={this.props.ministryArray}
-                        addRole={this.props.addRole}
-                        addBackGroundCheck={this.props.addBackGroundCheck}
-                        onSubmit={this.props.addBackGroundCheck}
-                        />
-                </div>  
-                {/* <div>
-                    <button onClick={this.showModal}>Click to show</button>  
-                </div>            */}
-                <div /*visible={this.state.showModal}*/>
+                <Button color='green' onClick={() => history.push("/settings/createtemplate/addministry")}>Create a New Ministry</Button>
+             
+             
+               
+                
+                <div >
                     {this.renderTemplateSummaryModal()}
                 </div>   
             </div>
@@ -143,6 +142,16 @@ render () {
 }
 }
 
+
+{/* <div>
+                    <CreateTemplateForm
+                        ministryArray={this.props.ministryArray}
+                        addRole={this.props.addRole}
+                        addBackGroundCheck={this.props.addBackGroundCheck}
+                        onSubmit={this.props.addBackGroundCheck}
+                        />
+                </div>  
+                 */}
 const mapStateToProps = (state) => {
     return {
         ministryArray : state.scheduleTemplate.ministryArray,

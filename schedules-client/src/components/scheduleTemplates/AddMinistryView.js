@@ -39,7 +39,7 @@ class AddMinistryView extends React.Component{
 
     onSubmitAddRole = (event) => {
         //This function determines if the Role Name is empty, it will submit if it has a valid name
-        let alreadyExists = this.state.rolesArray.some(role => role.roleName === this.state.roleName);
+        let alreadyExists = this./*state*/props.rolesArray.some(role => role.roleName === this.state.roleName);
 
         if((!(this.state.roleName === "")) && (!alreadyExists)) {
             this.setState({formError : false});
@@ -61,7 +61,7 @@ class AddMinistryView extends React.Component{
 
     submitConfirmMinistryButton () {        
          this.props.onConfirmMinistry({ministryName : this.props.creatingMinistryTitle, rolesArray : this.props.rolesArray});
-         //history.push("/settings/createtemplate/addministry");
+         history.push("/settings/createtemplate");
     }
 
     render () {
@@ -112,20 +112,17 @@ class AddMinistryView extends React.Component{
                         <Item.Group divided>
                             <RoleListView rolesArray={this.props.rolesArray} onRoleDelete={() => this.props.onRoleDelete()}/>
                         </Item.Group>
+                        
 
-                        {/* <Form.Button 
-                            onClick={this.onConfirmMinistry}
-                            disabled={this.state.ministryTitle === "" || this.state.rolesArray === []}
-                            color="blue"    
-                        >Confirm Ministry</Form.Button>
-                         */}
                          <ConfirmMinistryModal
                             submitConfirmMinistryButton={this.submitConfirmMinistryButton}
                             rolesArray={this.props.rolesArray}
                             ministryTitle={this.state.ministryTitle}
                             triggerButton={<Button onClick={this.props.onChangeMinistryName.bind(null, this.state.ministryTitle)} disabled={this.state.ministryTitle === "" || this.props.rolesArray.length < 1}
-                                            color="blue">Submit Schedule Template</Button>}/>
-                   </Form>
+                         color="blue">Add Minstry to Template</Button>}/>                             
+                         
+                            <Form.Button color='red' onClick={() => history.push("/settings/createtemplate")}>Cancel Ministry Creation</Form.Button>                         
+                   </Form>                
                 </div>
             </div>
         )

@@ -18,31 +18,35 @@ class ConfirmTemplateContent extends React.Component{
 
     renderRoleList (aMinistry){
         console.log("aMinistry: "+ JSON.stringify(aMinistry)); 
-        let aRoleArrayKey = 0;
+        // let aRoleArrayKey = 0;
         
          return (
-            aMinistry./*rolesArray.*/map(aRoleArray =>{
-                aRoleArray.map(aRole => {
-                    aRoleArrayKey++;
-                    console.log("aMinistry: " + JSON.stringify(aRoleArray));
-                    return (
-                        <div key={aRoleArrayKey} style={{display:'flex', flexDirection:"row"}}>
-                            Role Name: {aRole/*Array*/.roleName}    Requires BackGroundCheck:  {/*{aRoleArray.backGroundCheckRequired}*/}
+            aMinistry.rolesArray.map((aRoleArray, index)=>{
+                console.log("aRoleArray for modal: " + JSON.stringify(aRoleArray))
+                // aRoleArray.map(aRole => {
+                    // aRoleArrayKey++;
+                    // console.log("aMinistry: " + JSON.stringify(aRoleArray));
+                     return (
+                        <div key={index} style={{display:'flex', flexDirection:"row"}}>
+                            Role Name: {aRoleArray.roleName}    Requires BackGroundCheck:  {(aRoleArray.backGroundCheckRequired === true) ? "Yes" : "No"}
                         </div>
-                    )
-                })
-            })
+                    // )
+            )})
+            // })
          )
     }
 
     render() {
         return (
             
-            this.props.ministryArray.map(ministry => {
-               // console.log("ministry for modal: " + JSON.stringify(ministry))
+            this.props.ministryArray.map((ministry, index)=> {
+                // console.log("ministry for modal: " + JSON.stringify(ministry))
                 return (                    
-                    <div>
-                        <h4>Ministry Name: {ministry.ministryName}</h4>
+                    <div key={index}>
+                        <br></br>
+                        {/* <div> */}
+                            <h4>Ministry Name: {ministry.ministryName}</h4>
+                        {/* </div> */}
                          {this.renderRoleList(ministry)} 
                         {this.pairMinistryRoles()}
 
