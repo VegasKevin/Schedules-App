@@ -6,31 +6,25 @@ import RoleListView from './RoleListView';
 import ConfirmMinistryModal from './ConfirmMinistryModal';
 import history from "../../history";
 
-import {addRole, deleteRole, addMinistry, changeCreateMinistryTitle} from '../../actions/ScheduleTemplateActions';
-
-
-
+import {addRole, deleteRole, addMinistry, changeCreateMinistryTitle, clearRolesArray} from '../../actions/ScheduleTemplateActions';
 
 class AddMinistryView extends React.Component{
-    
     constructor () {
         super();
         this.state= {
             ministryTitle : "",
             roleName : "",
             backGroundRadioValue: null,
-            rolesArray: []  ,
             formError : false,   
         }
         this.ministryTitleOnChange=this.ministryTitleOnChange.bind(this);
         this.roleNameOnChange=this.roleNameOnChange.bind(this);
         this.backGroundRadioOnChange=this.backGroundRadioOnChange.bind(this);
         this.submitConfirmMinistryButton = this.submitConfirmMinistryButton.bind(this);
-        // this.roleOnDelete=this.roleOnDelete.bind(this);
+        this.onCancelMinistry = this.onCancelMinistry.bind(this);
     }
     ministryTitleOnChange (event) {
         this.setState ({ ministryTitle: event.target.value})
-        //this.props.onChangeMinistryName(this.state.ministryTitle);
     }
 
     roleNameOnChange (event) {
@@ -38,16 +32,14 @@ class AddMinistryView extends React.Component{
     }
 
     onSubmitAddRole = (event) => {
-        //This function determines if the Role Name is empty, it will submit if it has a valid name
-        let alreadyExists = this./*state*/props.rolesArray.some(role => role.roleName === this.state.roleName);
+        //This function determines if the Role Name is empty or if roleName already exists, it will submit if it has a valid name
+        let alreadyExists = this.props.rolesArray.some(role => role.roleName === this.state.roleName);
 
         if((!(this.state.roleName === "")) && (!alreadyExists)) {
             this.setState({formError : false});
             let radioValue = (this.state.backGroundRadioValue === "true") ? true : false;
-            /*this.setState( (prevState) => ({
-            rolesArray: [...prevState.rolesArray, {roleName: this.state.roleName, backGroundCheckRequired: radioValue}],
-            }))*/
-            this.props./*addRole*/onAddRole({ roleName: this.state.roleName, backGroundCheckRequired : radioValue })
+            
+            this.props.onAddRole({ roleName: this.state.roleName, backGroundCheckRequired : radioValue })
             this.setState({ roleName : "", backGroundRadioValue: null});  //Clears the Input field upon submission
         } else if(alreadyExists){
             this.setState({formError : true});
@@ -62,6 +54,12 @@ class AddMinistryView extends React.Component{
     submitConfirmMinistryButton () {        
          this.props.onConfirmMinistry({ministryName : this.props.creatingMinistryTitle, rolesArray : this.props.rolesArray});
          history.push("/settings/createtemplate");
+    }
+
+    onCancelMinistry () {
+        history.push("/settings/createtemplate");
+        this.props.onCancelMinistry();
+
     }
 
     render () {
@@ -118,10 +116,10 @@ class AddMinistryView extends React.Component{
                             submitConfirmMinistryButton={this.submitConfirmMinistryButton}
                             rolesArray={this.props.rolesArray}
                             ministryTitle={this.state.ministryTitle}
-                            triggerButton={<Button onClick={this.props.onChangeMinistryName.bind(null, this.state.ministryTitle)} disabled={this.state.ministryTitle === "" || this.props.rolesArray.length < 1}
+                            triggerButton={<Button onClick={this.props.onChangeMinistryName.bind(this, this.state.ministryTitle)} disabled={this.state.ministryTitle === "" || this.props.rolesArray.length < 1}
                          color="blue">Add Minstry to Template</Button>}/>                             
                          
-                            <Form.Button color='red' onClick={() => history.push("/settings/createtemplate")}>Cancel Ministry Creation</Form.Button>                         
+                            <Form.Button color='red' onClick={this.onCancelMinistry}>Cancel Ministry Creation</Form.Button>                         
                    </Form>                
                 </div>
             </div>
@@ -134,7 +132,8 @@ const mapDispatchToProps = (dispatch) => {
         onRoleDelete: (roleName) => dispatch(deleteRole(roleName)),
         onAddRole: (role) => dispatch(addRole(role)),
         onConfirmMinistry: (ministry) => dispatch(addMinistry(ministry)),
-        onChangeMinistryName: (ministryName) => dispatch(changeCreateMinistryTitle(ministryName))
+        onChangeMinistryName: (ministryName,event) => dispatch(changeCreateMinistryTitle(event,ministryName)),
+        onCancelMinistry: () => dispatch(clearRolesArray()),
     }
 }
 
@@ -145,4 +144,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps/*{ addRole, deleteRole }*/)(AddMinistryView);
+export default connect(mapStateToProps, mapDispatchToProps)(AddMinistryView);

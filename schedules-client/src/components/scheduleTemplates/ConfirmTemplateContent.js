@@ -38,9 +38,7 @@ class ConfirmTemplateContent extends React.Component{
 
     render() {
         return (
-            
             this.props.ministryArray.map((ministry, index)=> {
-                // console.log("ministry for modal: " + JSON.stringify(ministry))
                 return (                    
                     <div key={index}>
                         <br></br>

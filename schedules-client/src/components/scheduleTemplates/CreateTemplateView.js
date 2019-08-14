@@ -2,35 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, Header, Form, Input } from 'semantic-ui-react';
 
-import  MinistryInformationField  from './MinistryInformationField';
-
-import { addMinistry, addRole, changeNumberOfServices, addBackGroundCheck } from '../../actions/ScheduleTemplateActions';
-import CreateTemplateForm from './CreateTemplateForm';
+import { addMinistry, addRole, changeNumberOfServices, /*addBackGroundCheck*/ } from '../../actions/ScheduleTemplateActions';
  import history from '../../history';
-// import CreateVolunteerModalContent from '../volunteers/CreateVolunteerModalContent';
-import ConfirmTemplateContent from './ConfirmTemplateContent';
 import CurrentTemplateBuildView from './CurrentTemplateBuildView';
+import TemplateSummaryModalView from './TemplateSummaryModalView';
 
 class CreateTemplateView extends React.Component{
 
     constructor(props) {
         super(props);
-
         this.state = {
             numberOfServices : 0,
-            ministryString : "",
-            showModal : false,
             scheduleTemplateName : "",
+            modalOpen : false
         }
-
         this.handleNumberOfServicesChange = this.handleNumberOfServicesChange.bind(this);
         this.onChangeNumberOfServices = this.onChangeNumberOfServices.bind(this);
-        this.onSubmitMinistryString = this.onSubmitMinistryString.bind(this);
-        this.showModal = this.showModal.bind(this);
-        this.dismissModal = this.dismissModal.bind(this);
         this.handleTemplateNameChange = this.handleTemplateNameChange.bind(this);
-    }
-    
+        this.handleModalOpen = this.handleModalOpen.bind(this);
+        this.handleModalClose = this.handleModalClose.bind(this);
+        this.handleFinalizeTemplate = this.handleFinalizeTemplate.bind(this);
+    }    
 
     onChangeNumberOfServices = (event) => {
         this.props.changeNumberOfServices(this.state.numberOfServices);
@@ -44,71 +36,47 @@ class CreateTemplateView extends React.Component{
     handleTemplateNameChange (event) {
         this.setState({ scheduleTemplateName : event.target.value });
     }
-
-    onSubmitMinistryString = (event) => {
-        const splitMinistryArray = this.state.ministryString.trim().split(/\s+/);
-        // console.log("Ministry event: " + this.state.ministryString)
-        // console.log("split array: " + splitMinistryArray);
-        this.props.addMinistry(splitMinistryArray);
-        event.preventDefault();
+    handleModalOpen () {
+        this.setState({  modalOpen : true });
     }
 
-    dismissModal () {
-        this.setState({ showModal : false});
+    handleModalClose () {
+        this.setState({ modalOpen : false })
     }
 
-    showModal () {
-        this.setState({ showModal : true });
+    handleFinalizeTemplate () {
+
     }
 
     //This will be a Modal displaying the Summary of the ScheduleTemplate being created with a Confirm & Cancel/Edit button
     renderTemplateSummaryModal () {
-        // console.log("state showModal: " + this.state.showModal);
-        //  if(this.state.showModal === false){
-        //      return (null);
-        //  }
-         return (
-             <Modal trigger={<button className='ui button primary' >Submit Schedule Template</button>}>
-                 <Modal.Header>New Schedule Template Summary</Modal.Header>
-                    <Modal.Content image scrolling>
-                        <Modal.Description>
-                            <div>
-                                <Header>
-                                    Please Check Schedule Template for Accuracy and Confirm
-                                </Header>
-                            </div>
-                        </Modal.Description>
-                        <div>
-                        <ConfirmTemplateContent
-                            ministryArray={this.props.ministryArray}
-                            backGroundCheckArray={this.props.backGroundCheckArray}
-                            />
-                        </div>
-                       
-                       
-
-                    </Modal.Content>
-             </Modal>
-         )
+        return (
+            <TemplateSummaryModalView  
+                ministryArray={this.props.ministryArray}
+                backGroundCheckArray={this.props.backGroundCheckArray}
+                open={this.state.modalOpen}
+                onClose={this.handleModalClose}
+            />
+        )
     }
 
 render () {
     return (
         <div style={{display:'flex', flexDirection:"row", justifyContent:'space-between'}}>
-            <div style={{width:'20%'}}>
-                <h2>CreateTemplateView</h2>
-            </div>
             <div>
+                {/*This is a display of the current Schedule Template being built as known in the Schedule Template Store.
+                    It's shown on the left hand side of the screen and allows the Admin/User to keep track of the progress of the Schedule Template                */}
                 <CurrentTemplateBuildView
                     ministryArray={this.props.ministryArray}
                     numberOfServices={this.props.numberOfServices}
+                    handleFinalizeTemplate={this.handleFinalizeTemplate}
                 />
             </div>
             <div style={{flexDirection:"vertical" }}>
                 <Form>
                     <Form.Input
                         required={true}
-                        min="0"
+                        min="1"
                         max="7"
                         label="Enter the Number of Services for this Schedule Template"
                         type="number"   
@@ -116,7 +84,6 @@ render () {
                         onChange={this.handleNumberOfServicesChange}                         
                         />        
                         <Button onClick={this.onChangeNumberOfServices} >Change Service</Button>
-
                     <Form.Input
                         required={true}
                         type="text"
@@ -124,16 +91,12 @@ render () {
                         label="Enter the Name of this Schedule Template"
                         value={this.state.scheduleTemplateName}
                         onChange={this.handleTemplateNameChange}
-                        />
-                    {/* <Button onClick={this.onSetTemplateName}>Submit Template Name</Button> */}
-                    
+                        />                    
                 </Form>
-                <Button color='green' onClick={() => history.push("/settings/createtemplate/addministry")}>Create a New Ministry</Button>
-             
-             
-               
-                
-                <div >
+                <Button color='green' onClick={() => history.push("/settings/createtemplate/addministry")}>Create a New Ministry</Button>  
+                <Button className='ui button primary' onClick={this.handleModalOpen} >Submit Schedule Template</Button>        
+                {/*This div is to render a Modal.  This is the Confirmation Modal for the entire Schedule Template */}
+                <div>
                     {this.renderTemplateSummaryModal()}
                 </div>   
             </div>
@@ -142,16 +105,6 @@ render () {
 }
 }
 
-
-{/* <div>
-                    <CreateTemplateForm
-                        ministryArray={this.props.ministryArray}
-                        addRole={this.props.addRole}
-                        addBackGroundCheck={this.props.addBackGroundCheck}
-                        onSubmit={this.props.addBackGroundCheck}
-                        />
-                </div>  
-                 */}
 const mapStateToProps = (state) => {
     return {
         ministryArray : state.scheduleTemplate.ministryArray,
@@ -159,5 +112,4 @@ const mapStateToProps = (state) => {
         backGroundCheckArray : state.scheduleTemplate.backGroundCheckArray
     }
 }
-
-export default connect (mapStateToProps, { addMinistry, addRole, changeNumberOfServices, addBackGroundCheck })(CreateTemplateView);
+export default connect (mapStateToProps, { addMinistry, addRole, changeNumberOfServices, /*addBackGroundCheck*/ })(CreateTemplateView);
