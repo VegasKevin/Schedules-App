@@ -21,7 +21,7 @@ class VolunteerListView extends React.Component{
             this.setState({activeIndex : index});
             //console.log("!!!test!!: " + JSON.stringify(this.props.volunteers.volunteers[index]));
             this.props.selectVolunteer(this.props.volunteers.volunteers[index]);
-            console.log("volSelected: "  + JSON.stringify(this.props.volunteers.volunteerSelected));
+            // console.log("volSelected: "  + JSON.stringify(this.props.volunteers.volunteerSelected));
          }
 
         //  componentDidUpdate () {

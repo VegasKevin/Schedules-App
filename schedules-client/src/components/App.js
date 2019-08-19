@@ -9,7 +9,7 @@ import history from '../history';
 // import  main  from './schedules/main';
 // import two from './schedules/two';
 // import three from './schedules/three';
-import ministry_Tabs_Bar from './schedules/ministry_Tabs_Bar';
+// import ministry_Tabs_Bar from './schedules/ministry_Tabs_Bar';
 
 //Components
 import MainVolunteersView from './volunteers/Main_Volunteers_View';
@@ -18,6 +18,9 @@ import UpdateVolunteerView from './volunteers/UpdateVolunteerView';
 import DeleteVolunteerView from './volunteers/DeleteVolunteerView';
 import CreateTemplateView from './scheduleTemplates/CreateTemplateView';
 import AddMinistryView from './scheduleTemplates/AddMinistryView';
+import SettingsMainView from './settings/SettingsMainView';
+import SchedulesMainView from './schedules/SchedulesMainView';
+import CreateNewScheduleView from './schedules/CreateNewScheduleView';
 
 //const RouteArray = [{"key":"1", "path" : "/","component":main}, {"key":"2", "path":"/two","component":two}, {"key":"3", "path":"/three", "component":three}];
 
@@ -43,14 +46,17 @@ const App = () => {
         <div className='ui container'>
             <Router history={history}>                    
                 <Switch>
-                    {/* {ministryMap}                                    */}
+                
                     <Route path="/volunteers" exact component={() => <MainVolunteersView/>}/>
                     <Route path="/volunteers/create" exact component={props => <CreateVolunteerView {...props}/>} />
                     <Route path="/volunteers/update" exact component={props => <UpdateVolunteerView {...props}/>} />
                     <Route path="/volunteers/delete" exact component={props => <DeleteVolunteerView  {...props} />}/>
                     <Route path="/settings/createtemplate" exact component={() =>  <CreateTemplateView  /> }/>
                     <Route path="/settings/createtemplate/addministry" exact component={() => <AddMinistryView /> }/>
-                    {/* <Route path="/settings/createtemplate/confirm" exact component={() => <} /> */}
+                    <Route path="/settings" exact component={() => <SettingsMainView/>}/>
+                    <Route path="/schedules" exact component={() => <SchedulesMainView/>}/>
+                    <Route path="/schedules/createnewschedule" exact component={() => <CreateNewScheduleView/>} />
+                    
                 </Switch>
             </Router>            
         </div>

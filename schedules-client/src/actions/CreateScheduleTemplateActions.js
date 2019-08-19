@@ -1,5 +1,3 @@
-//import history from '../history';
-
 import {
     ADD_MINISTRY,
     ADD_ROLE,
@@ -15,7 +13,7 @@ import {
 } from './types';
 
 import history from '../history';
-import schedulesTemplate_Axios from '../apis/schedulesTemplateAPI';
+import schedulesTemplate_Axios from '../apis/createSchedulesTemplateAPI';
 
 //Adds ministry Object to the ministry array in the Schedule Template store. Clears rolesArray in Schedule Template Store
 export function addMinistry (newMinistry) {  //Do I want newMinistry to be a Ministry Object? a name? or something else?
@@ -80,7 +78,6 @@ export function finalizeScheduleTemplate (templateObject) {
             return error;
         }
         try {
-            console.log("tempObject action: " + JSON.stringify(templateObject));
             const success = await schedulesTemplate_Axios.post("/", templateObject);
             return onSuccess(success);
         } catch(error){

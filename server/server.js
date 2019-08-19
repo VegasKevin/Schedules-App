@@ -7,8 +7,11 @@ const volunteers = require('./routes/api/Volunteers/GetAllVolunteers');
 const searchVolunteers = require('./routes/api/Volunteers/SearchGetVolunteers');
 const patchVolunteer = require('./routes/api/Volunteers/PatchVolunteer');
 const deleteVolunteer = require('./routes/api/Volunteers/DeleteVolunteer');
-//API Routes for Schedule Templates
+//API Routes for Creating Schedule Templates
 const createScheduleTemplate = require('./routes/api/ScheduleTemplates/CreateScheduleTemplate');
+//API Routes for Manageing Schedule Template
+const manageScheduleTemplates = require('./routes/api/ScheduleTemplates/GetAllScheduleTemplates');
+
 
 const app = express();
 
@@ -45,8 +48,11 @@ app.use("/api/volunteers", deleteVolunteer);
 
 app.use("/api/volunteers/search", searchVolunteers);
 
-//Schedule Templated
+// Create Schedule Templates
 app.use("/api/schedules/createscheduletemplate", createScheduleTemplate);
+
+//Manage Schedule Templates
+app.use("/api/managescheduletemplates", manageScheduleTemplates);
 
 const port = process.env.PORT || 5000;
 

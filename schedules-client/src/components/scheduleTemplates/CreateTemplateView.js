@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Form } from 'semantic-ui-react';
 
-import { changeNumberOfServices, finalizeScheduleTemplate, changeScheduleTemplateName } from '../../actions/ScheduleTemplateActions';
+import { changeNumberOfServices, finalizeScheduleTemplate, changeScheduleTemplateName } from '../../actions/CreateScheduleTemplateActions';
  import history from '../../history';
 import CurrentTemplateBuildView from './CurrentTemplateBuildView';
 import TemplateSummaryModalView from './TemplateSummaryModalView';

@@ -6,7 +6,7 @@ import RoleListView from './RoleListView';
 import ConfirmMinistryModal from './ConfirmMinistryModal';
 import history from "../../history";
 
-import {addRole, deleteRole, addMinistry, changeCreateMinistryTitle, clearRolesArray} from '../../actions/ScheduleTemplateActions';
+import {addRole, deleteRole, addMinistry, changeCreateMinistryTitle, clearRolesArray} from '../../actions/CreateScheduleTemplateActions';
 
 class AddMinistryView extends React.Component{
     constructor () {

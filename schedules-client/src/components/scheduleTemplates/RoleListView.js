@@ -3,7 +3,7 @@ import { Item, Button } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 
-import { deleteRole } from '../../actions/ScheduleTemplateActions';
+import { deleteRole } from '../../actions/CreateScheduleTemplateActions';
 
 class RoleListView extends React.Component{
     render() {
