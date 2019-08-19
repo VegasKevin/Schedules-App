@@ -12,6 +12,8 @@ const createScheduleTemplate = require('./routes/api/ScheduleTemplates/CreateSch
 
 const app = express();
 
+
+
 // The BodyParser Middleware
 app.use(bodyParser.json());
 
@@ -44,7 +46,7 @@ app.use("/api/volunteers", deleteVolunteer);
 app.use("/api/volunteers/search", searchVolunteers);
 
 //Schedule Templated
-app.use("/api/schedules", createScheduleTemplate);
+app.use("/api/schedules/createscheduletemplate", createScheduleTemplate);
 
 const port = process.env.PORT || 5000;
 

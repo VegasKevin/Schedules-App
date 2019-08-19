@@ -1,6 +1,6 @@
-import _ from 'lodash';
-import * as util from 'util';
-import { inspect } from 'util';
+// import _ from 'lodash';
+// import * as util from 'util';
+// import { inspect } from 'util';
  
 import {
     ADD_MINISTRY,
@@ -10,7 +10,9 @@ import {
     DELETE_ROLE,
     CHANGE_CREATEMINISTRYTITLE,
     CLEAR_ROLESARRAY,
-    FINALIZE_SCHEDULE_TEMPLATE
+    FINALIZE_SCHEDULE_TEMPLATE,
+    CLEAR_CREATEMINISTRYTITLE,
+    CHANGE_SCHEDULETEMPLATENAME
 } from '../actions/types';
 
 let INITIAL_STATE = {
@@ -18,7 +20,8 @@ let INITIAL_STATE = {
     backGroundCheckArray : [], 
     rolesArray : [],
     numberOfServices : 0,
-    creatingMinistryTitle : ""
+    creatingMinistryTitle : "",
+    scheduleTemplateName: "",
 }
 
 export default (state = INITIAL_STATE, action ) => {
@@ -73,8 +76,14 @@ export default (state = INITIAL_STATE, action ) => {
         case CHANGE_CREATEMINISTRYTITLE:{
             return {...state, creatingMinistryTitle : action.payload };
         }
+        case CLEAR_CREATEMINISTRYTITLE : {
+            return {...state, creatingMinistryTitle : "" };
+        }
+        case CHANGE_SCHEDULETEMPLATENAME: {
+            return { ...state, scheduleTemplateName : action.payload }
+        }
         case FINALIZE_SCHEDULE_TEMPLATE : {
-            
+            return  INITIAL_STATE;
         }
         default : {
             return state;

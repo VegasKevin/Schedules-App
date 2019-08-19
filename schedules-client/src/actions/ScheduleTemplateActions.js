@@ -7,9 +7,11 @@ import {
     ADD_BACKGROUNDCHECK,
     DELETE_ROLE,
     CHANGE_CREATEMINISTRYTITLE,
+    CLEAR_CREATEMINISTRYTITLE,
     CLEAR_ROLESARRAY,
     FINALIZE_SCHEDULE_TEMPLATE,
     ERROR_GENERATED,
+    CHANGE_SCHEDULETEMPLATENAME,    
 } from './types';
 
 import history from '../history';
@@ -20,6 +22,7 @@ export function addMinistry (newMinistry) {  //Do I want newMinistry to be a Min
     return dispatch => {
         dispatch( { type: ADD_MINISTRY, payload: newMinistry })
         dispatch({ type: CLEAR_ROLESARRAY  })
+        dispatch({ type: CLEAR_CREATEMINISTRYTITLE })
     }
 }
 
@@ -65,11 +68,11 @@ export function changeCreateMinistryTitle (event, newMinistryTitle) {
     }
 }
 
-export function finalizeScheduleTemplate () {
+export function finalizeScheduleTemplate (templateObject) {
     return async dispatch => {
         function onSuccess(success){
             dispatch ({ type: FINALIZE_SCHEDULE_TEMPLATE, payload : success });
-            history.push("/settings")
+            history.push("/settings/createtemplate")
             return success;
         }
         function onError(error){
@@ -77,10 +80,17 @@ export function finalizeScheduleTemplate () {
             return error;
         }
         try {
-            const success = await schedulesTemplate_Axios.post("/", /*insert values*/);
+            console.log("tempObject action: " + JSON.stringify(templateObject));
+            const success = await schedulesTemplate_Axios.post("/", templateObject);
             return onSuccess(success);
         } catch(error){
             return onError(error);
         }
+    }
+}
+
+export function changeScheduleTemplateName (templateName) {
+    return (dispatch) => {
+        dispatch({ type: CHANGE_SCHEDULETEMPLATENAME, payload : templateName  });
     }
 }

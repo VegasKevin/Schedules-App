@@ -112,14 +112,14 @@ class AddMinistryView extends React.Component{
                         </Item.Group>
                         
 
-                         <ConfirmMinistryModal
+                        <ConfirmMinistryModal
                             submitConfirmMinistryButton={this.submitConfirmMinistryButton}
                             rolesArray={this.props.rolesArray}
                             ministryTitle={this.state.ministryTitle}
                             triggerButton={<Button onClick={this.props.onChangeMinistryName.bind(this, this.state.ministryTitle)} disabled={this.state.ministryTitle === "" || this.props.rolesArray.length < 1}
-                         color="blue">Add Minstry to Template</Button>}/>                             
+                         color="blue">Add Minstry to Template</Button>}     />                    
                          
-                            <Form.Button color='red' onClick={this.onCancelMinistry}>Cancel Ministry Creation</Form.Button>                         
+                        <Form.Button color='red' onClick={this.onCancelMinistry}>Cancel Ministry Creation</Form.Button>                         
                    </Form>                
                 </div>
             </div>

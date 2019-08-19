@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Header, Form, Input } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 
-import { addMinistry, addRole, changeNumberOfServices, /*addBackGroundCheck*/ } from '../../actions/ScheduleTemplateActions';
+import { changeNumberOfServices, finalizeScheduleTemplate, changeScheduleTemplateName } from '../../actions/ScheduleTemplateActions';
  import history from '../../history';
 import CurrentTemplateBuildView from './CurrentTemplateBuildView';
 import TemplateSummaryModalView from './TemplateSummaryModalView';
@@ -12,29 +12,25 @@ class CreateTemplateView extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            numberOfServices : 0,
+            numberOfServices : this.props.numberOfServices,
             scheduleTemplateName : "",
             modalOpen : false
         }
         this.handleNumberOfServicesChange = this.handleNumberOfServicesChange.bind(this);
-        this.onChangeNumberOfServices = this.onChangeNumberOfServices.bind(this);
         this.handleTemplateNameChange = this.handleTemplateNameChange.bind(this);
         this.handleModalOpen = this.handleModalOpen.bind(this);
         this.handleModalClose = this.handleModalClose.bind(this);
-        this.handleFinalizeTemplate = this.handleFinalizeTemplate.bind(this);
+    
     }    
-
-    onChangeNumberOfServices = (event) => {
-        this.props.changeNumberOfServices(this.state.numberOfServices);
-        event.preventDefault();
-    }
 
     handleNumberOfServicesChange (event) {
         this.setState( { numberOfServices : event.target.value });
+        this.props.onChangeNumberOfServices(event.target.value);
     }
 
     handleTemplateNameChange (event) {
         this.setState({ scheduleTemplateName : event.target.value });
+        this.props.onChangeTemplateName(event.target.value);
     }
     handleModalOpen () {
         this.setState({  modalOpen : true });
@@ -44,8 +40,24 @@ class CreateTemplateView extends React.Component{
         this.setState({ modalOpen : false })
     }
 
-    handleFinalizeTemplate () {
+    buildTemplateObject = () => {
+        let newMinistryArray = this.props.ministryArray.map(ministry => {
+            return { 
+                // "ministryObject" is an Array of Role Objects.  THis naming would likely be better as 'rolesObjectArray' or something
+                "ministryName" : ministry.ministryName,    
+                "ministryObject" : ministry.rolesArray};
+        });
 
+        return {
+            "scheduleTemplateName" : this.props.scheduleTemplateName,
+            "ministryArray" : newMinistryArray,
+            "numberOfServices" : this.props.numberOfServices
+        }
+    }
+
+    sendTemplateObject = () => {
+        this.handleModalClose();
+       this.props.onFinalizeScheduleTemplate(this.buildTemplateObject());
     }
 
     //This will be a Modal displaying the Summary of the ScheduleTemplate being created with a Confirm & Cancel/Edit button
@@ -56,6 +68,7 @@ class CreateTemplateView extends React.Component{
                 backGroundCheckArray={this.props.backGroundCheckArray}
                 open={this.state.modalOpen}
                 onClose={this.handleModalClose}
+                onFinalize={this.sendTemplateObject}
             />
         )
     }
@@ -69,7 +82,7 @@ render () {
                 <CurrentTemplateBuildView
                     ministryArray={this.props.ministryArray}
                     numberOfServices={this.props.numberOfServices}
-                    handleFinalizeTemplate={this.handleFinalizeTemplate}
+                    scheduleTemplateName={this.props.scheduleTemplateName}
                 />
             </div>
             <div style={{flexDirection:"vertical" }}>
@@ -80,16 +93,16 @@ render () {
                         max="7"
                         label="Enter the Number of Services for this Schedule Template"
                         type="number"   
-                        value={this.state.numberOfServices}
+                        value={this.props.numberOfServices}//{this.state.numberOfServices}
                         onChange={this.handleNumberOfServicesChange}                         
                         />        
-                        <Button onClick={this.onChangeNumberOfServices} >Change Service</Button>
+                        {/* <Button  onClick={this.props.onChangeNumberOfServices(this.state.numberOfServices)} >Change Service</Button> */}
                     <Form.Input
                         required={true}
                         type="text"
                         max="50"
                         label="Enter the Name of this Schedule Template"
-                        value={this.state.scheduleTemplateName}
+                        value={this.props.scheduleTemplateName}//{this.state.scheduleTemplateName}
                         onChange={this.handleTemplateNameChange}
                         />                    
                 </Form>
@@ -109,7 +122,16 @@ const mapStateToProps = (state) => {
     return {
         ministryArray : state.scheduleTemplate.ministryArray,
         numberOfServices : state.scheduleTemplate.numberOfServices,
-        backGroundCheckArray : state.scheduleTemplate.backGroundCheckArray
+        backGroundCheckArray : state.scheduleTemplate.backGroundCheckArray,
+        scheduleTemplateName : state.scheduleTemplate.scheduleTemplateName
     }
 }
-export default connect (mapStateToProps, { addMinistry, addRole, changeNumberOfServices, /*addBackGroundCheck*/ })(CreateTemplateView);
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFinalizeScheduleTemplate : (templateObject) => dispatch(finalizeScheduleTemplate(templateObject)),
+        onChangeNumberOfServices: (numberOfServices) => dispatch(changeNumberOfServices(numberOfServices)),
+        onChangeTemplateName: (templateName) => dispatch(changeScheduleTemplateName(templateName))
+    }
+}
+export default connect (mapStateToProps, mapDispatchToProps)(CreateTemplateView);

@@ -45,6 +45,7 @@ class CurrentTemplateBuildView extends React.Component{
             <div>
                 <h3>Current Status of the Schedule Template Being Created</h3>
                 <div>
+                    <h4>Schedule Template Name: {this.props.scheduleTemplateName}</h4>
                     <h5>Number of Services: {this.props.numberOfServices}</h5>
                 </div>
                 <Item.Group divided>
@@ -55,8 +56,4 @@ class CurrentTemplateBuildView extends React.Component{
         );
     }
 }
-//const CurrentTemplateBuildView = (props) => {
-    
-//}
-
 export default CurrentTemplateBuildView;

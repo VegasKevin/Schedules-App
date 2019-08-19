@@ -24,7 +24,7 @@ const TemplateSummaryModalView = (props) => {
                    </Modal.Description>                    
                    <Modal.Description>
                        <div style={{display:"flex", flexDirection:'row'}}>
-                           <Button color='black'>Confirm Template Details and Finalize</Button>
+                           <Button color='black' onClick={props.onFinalize}>Confirm Template Details and Finalize</Button>
                            <Button color='red' onClick={props.onClose}>Cancel Confirmation</Button>
                        </div>
                    </Modal.Description>

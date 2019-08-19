@@ -10,10 +10,11 @@ const ScheduleTemplateSchema = require("../../../../models/ScheduleTemplateSchem
  */
 router.post("/", 
     (req, res) => {
-        console.log("template post: " + JSON.stringify(req.body));
         const newScheduleTemplate = new ScheduleTemplateSchema({
             //MinistryArray is an Array of Ministry objects
-            MinistryArray : req.body.ministryArray
+            MinistryArray : req.body.ministryArray,
+            NumberOfServices : req.body.numberOfServices,
+            ScheduleTemplateName : req.body.scheduleTemplateName
         });
 
         newScheduleTemplate
@@ -22,7 +23,7 @@ router.post("/",
                 res.status(201).json({ "newTemplate" : newTemplate})
             })
             .catch(error => {
-                console.log("Error in createScheduleTemplate.js:  " + error);
+                console.log("~~~~~~~~~~~~~~~~~~``Error in createScheduleTemplate.js:  " + error);
                 res.status(500).json({ "templateCreationError" : error})
             });
     }
