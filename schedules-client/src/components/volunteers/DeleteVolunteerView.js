@@ -7,7 +7,7 @@ import Modal from './Modal';
 import history from '../../history';
 //import DeleteVolunteerModalContent from './DeleteVolunteerModalContent';
 
-import { deleteVolunteer } from '../../actions';
+import { deleteVolunteer } from '../../actions/VolunteerActions';
 import VolunteerInfoDisplay from './VolunteerInfoDisplay';
 
 class DeleteVolunteerView extends React.Component {

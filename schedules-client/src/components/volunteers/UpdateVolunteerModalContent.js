@@ -42,7 +42,7 @@ class UpdateVolunteerModalContent extends React.Component {
         );
     }
 
-    onSubmit = (formValues,e) => {       
+    onSubmit = (formValues) => {       
         this.props.onSubmit(formValues);
         
     }
@@ -119,7 +119,7 @@ class UpdateVolunteerModalContent extends React.Component {
 
 }
 
-const mapStateToProps = ( state, props) =>{
+const mapStateToProps = (state) =>{
    return  {
         volunteerSelected : state.volunteers.volunteerSelected
     }

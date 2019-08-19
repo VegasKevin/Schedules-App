@@ -6,7 +6,7 @@ import Modal from './Modal';
 
 import UpdateVolunteerModalContent from './UpdateVolunteerModalContent';
 import VolunteerInfoDisplay from './VolunteerInfoDisplay';
-import { updateVolunteer } from '../../actions';
+import { updateVolunteer } from '../../actions/VolunteerActions';
 
 class UpdateVolunteerView extends React.Component {
 

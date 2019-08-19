@@ -2,7 +2,8 @@ import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 
 import history from '../history';
-import {ministry_Test} from '../models/test models/ministry_Test';
+//import { ministry_Test } from '../../../models/test models/ministry_Test';
+//import {ministry_Test} from '../models/test models/ministry_Test';
 //import {Button} from 'semantic-ui-react';
 // import { test_Link_Component } from '../models/test models/test_Link_Component';
 // import  main  from './schedules/main';
@@ -15,13 +16,19 @@ import MainVolunteersView from './volunteers/Main_Volunteers_View';
 import CreateVolunteerView from './volunteers/CreateVolunteerView';
 import UpdateVolunteerView from './volunteers/UpdateVolunteerView';
 import DeleteVolunteerView from './volunteers/DeleteVolunteerView';
+import CreateTemplateView from './scheduleTemplates/CreateTemplateView';
+import AddMinistryView from './scheduleTemplates/AddMinistryView';
 
 //const RouteArray = [{"key":"1", "path" : "/","component":main}, {"key":"2", "path":"/two","component":two}, {"key":"3", "path":"/three", "component":three}];
 
 /*console.log(RouteArray);
 console.log("roleTest: " + ministry_Test.context);
 */
-const ministryMap = ministry_Test.rolesArray.map((route) => <Route key={route.roleName} path={`/${route.roleName}`} exact component={ministry_Tabs_Bar}/>);
+
+
+// const ministryMap = ministry_Test.rolesArray.map((route) => <Route key={route.roleName} path={`/${route.roleName}`} exact component={ministry_Tabs_Bar}/>);
+
+
 // ministry_Test.rolesArray.forEach(element => {
 //     console.log(element.roleName + "    " + element.backgroundCheckRequired);    
 //});
@@ -36,11 +43,14 @@ const App = () => {
         <div className='ui container'>
             <Router history={history}>                    
                 <Switch>
-                    {ministryMap}                                   
+                    {/* {ministryMap}                                    */}
                     <Route path="/volunteers" exact component={() => <MainVolunteersView/>}/>
                     <Route path="/volunteers/create" exact component={props => <CreateVolunteerView {...props}/>} />
                     <Route path="/volunteers/update" exact component={props => <UpdateVolunteerView {...props}/>} />
                     <Route path="/volunteers/delete" exact component={props => <DeleteVolunteerView  {...props} />}/>
+                    <Route path="/settings/createtemplate" exact component={() =>  <CreateTemplateView  /> }/>
+                    <Route path="/settings/createtemplate/addministry" exact component={() => <AddMinistryView /> }/>
+                    {/* <Route path="/settings/createtemplate/confirm" exact component={() => <} /> */}
                 </Switch>
             </Router>            
         </div>

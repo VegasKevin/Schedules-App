@@ -7,8 +7,12 @@ const volunteers = require('./routes/api/Volunteers/GetAllVolunteers');
 const searchVolunteers = require('./routes/api/Volunteers/SearchGetVolunteers');
 const patchVolunteer = require('./routes/api/Volunteers/PatchVolunteer');
 const deleteVolunteer = require('./routes/api/Volunteers/DeleteVolunteer');
+//API Routes for Schedule Templates
+const createScheduleTemplate = require('./routes/api/ScheduleTemplates/CreateScheduleTemplate');
 
 const app = express();
+
+
 
 // The BodyParser Middleware
 app.use(bodyParser.json());
@@ -40,6 +44,9 @@ app.use("/api/volunteers", patchVolunteer);
 app.use("/api/volunteers", deleteVolunteer);
 
 app.use("/api/volunteers/search", searchVolunteers);
+
+//Schedule Templated
+app.use("/api/schedules/createscheduletemplate", createScheduleTemplate);
 
 const port = process.env.PORT || 5000;
 
