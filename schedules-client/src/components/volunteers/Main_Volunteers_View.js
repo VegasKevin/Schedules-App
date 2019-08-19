@@ -40,6 +40,13 @@ class Main_Volunteers_View extends React.Component{
                             Update Volunteer
                         </Link>
                     </div>
+                    <div>
+                        <Link to={(this.props.volunteerSelected !== undefined && this.props.volunteerSelected !== null) ? "/volunteers/delete" : "/volunteers"}
+                            className='ui button'
+                            >
+                                Delete Volunteer
+                            </Link>
+                    </div>
                 </div>                
                 <div>
                     <VolunteerListView/>

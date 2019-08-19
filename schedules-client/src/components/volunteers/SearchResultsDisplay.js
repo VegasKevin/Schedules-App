@@ -3,7 +3,7 @@ import React from 'react';
 import {connect } from 'react-redux';
 import { List } from 'semantic-ui-react';
 
-import { getOneVolunteer } from '../../actions/index';
+import { getOneVolunteer } from '../../actions/VolunteerActions';
 
 import VolunteerInfoDisplay from './VolunteerInfoDisplay';
 
@@ -28,6 +28,7 @@ class SearchResultDisplay extends React.Component {
                         lastName={volunteer.lastName}
                         backGroundCheck={volunteer.backGroundCheck}
                         emailAddress={volunteer.emailAddress}
+                        phoneNumber={volunteer.phoneNumber}
                         ministries={volunteer.ministries}
                         preferences={volunteer.preferences}
                     />

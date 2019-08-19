@@ -10,7 +10,7 @@ import history from '../../history';
 import CreateVolunteerModalContent from './CreateVolunteerModalContent';
 //import { PromiseProvider } from 'mongoose';
 
-import { createVolunteer } from '../../actions';
+import { createVolunteer } from '../../actions/VolunteerActions';
 
 class CreateVolunteerView extends React.Component {
 

@@ -7,20 +7,20 @@ class VolunteerInfoDisplay extends React.Component {
    
     renderBackGround () {
         return (
-            <div>Valid Background Check : {this.props.backGroundCheck.toString()}</div>
+        <div>Valid Background Check : {(this.props.backGroundCheck) ? 'Yes' : 'No'}</div>
         )
     }
     renderEmail () {
         return(
-            <div>{this.props.emailAddress}</div>
+            <div>Email: {this.props.emailAddress}</div>
         )
     }
     renderNames () {
         return (
-            <div>{this.props.firstName} {this.props.lastName}</div>
+            <div><b>{this.props.firstName} {this.props.lastName}</b></div>
         )
     }
-    renderPhoneNumbers () {
+    renderPhoneNumber () {
         return (
             <div>Phone #: {this.props.phoneNumber}</div>
         )
@@ -39,7 +39,7 @@ class VolunteerInfoDisplay extends React.Component {
     render () {
         return (
             <List.Item key={this.props._id}
-                style={this.props.active ? {backgroundColor:"lightblue"} : {backGroundCheck : ""}}
+                style={this.props.active ? {backgroundColor:"lightblue"} : {backgroundColor : ""}}
                 onClick={this.props.onToggle}            
             >
                 <List.Content>
@@ -47,9 +47,9 @@ class VolunteerInfoDisplay extends React.Component {
                         this.props.lastName !== undefined)          ? this.renderNames() : ""}
                     {(this.props.emailAddress !== undefined)        ? this.renderEmail() : ""}
                     {(this.props.backGroundCheck !== undefined)     ? this.renderBackGround() : ""}
-                    {(this.props.phoneNumber !== undefined)         ? this.renderPhoneNumbers() : ""}
-                    {(this.props.ministries !== undefined) ? this.renderMinistries() : ""}
-                    {(this.props.preferences !== undefined) ? this.renderPreferences() : ""}                    
+                    {(this.props.phoneNumber !== undefined)         ? this.renderPhoneNumber() : ""}
+                    {(this.props.ministries !== undefined)          ? this.renderMinistries() : ""}
+                    {(this.props.preferences !== undefined)         ? this.renderPreferences() : ""}                    
                 </List.Content>
             </List.Item>  
         )
