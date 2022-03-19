@@ -21,9 +21,11 @@ class Main_Volunteers_View extends React.Component{
         //console.log("selected " + this.props.volunteerSelected);
         return (
             <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+                {/* Horizontal  Div 1/4 */}
                 <div>
                     main_Volunteers_View
                 </div>
+                {/* Horizontal Div 2/4 */}
                 <div style={{display:'flex', flexDirection:'column', justifyContent:'space-around'}}>
                     <div>
                         <Link to="/volunteers/create"
@@ -48,9 +50,11 @@ class Main_Volunteers_View extends React.Component{
                             </Link>
                     </div>
                 </div>                
+                {/* Horizontal Div 3/4 */}
                 <div>
                     <VolunteerListView/>
                 </div>
+                {/* Horizontal Div 4/4 */}
                 <div>
                     <SearchVolunteerView
                         //onSubmit={this.onSubmit}
